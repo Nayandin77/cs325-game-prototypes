@@ -1,0 +1,16 @@
+body {
+    color: #fff;
+    background: no-repeat center center fixed;
+    background-image: linear-gradient(to bottom right, #ff4a4a, rgb(63, 201, 211));
+    font-family: "Avenir", Verdana, sans-serif;
+}
+
+a { text-decoration: none; color: #000; }
+a:visited { text-decoration: none; color:#000; }
+a:hover { text-decoration: none; color:#000; }
+a:focus { text-decoration: none; color:#fff; }
+a:hover, a:active { text-decoration: none; color:#fff }
+
+#readme {
+    margin-top: 10px;
+}
