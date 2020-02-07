@@ -44,9 +44,9 @@
 
         function preload ()
         {
-            this.load.image('sky', 'assets/sky.png');
+            this.load.image('sky', 'assets/my_sky.png');
             this.load.image('ground', 'assets/platform.png');
-            this.load.image('star', 'assets/star.png');
+            this.load.image('coin', 'assets/coin.png');
             this.load.image('bomb', 'assets/bomb.png');
             this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
         }
@@ -101,14 +101,14 @@
 
             //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
             stars = this.physics.add.group({
-                key: 'star',
+                key: 'coin',
                 repeat: 11,
                 setXY: { x: 12, y: 0, stepX: 70 }
             });
 
             stars.children.iterate(function (child) {
 
-                //  Give each star a slightly different bounce
+                //  Give each coin a slightly different bounce
                 child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
             });
@@ -161,9 +161,9 @@
             }
         }
 
-        function collectStar (player, star)
+        function collectStar (player, coin)
         {
-            star.disableBody(true, true);
+            coin.disableBody(true, true);
 
             //  Add and update the score
             score += 10;
