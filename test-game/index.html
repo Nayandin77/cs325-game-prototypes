@@ -49,9 +49,15 @@
             this.load.image('coin', 'assets/coin.png');
             this.load.image('bomb', 'assets/bomb.png');
             this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
+            this.load.audio('song', 'assets/audio/song.mp3');
         }
+
         function create ()
         {
+            this.song = this.sound.add('song');
+            this.song.play();
+
             //  A simple background for our game
             this.add.image(400, 300, 'sky');
 
@@ -63,9 +69,12 @@
             platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 
             //  Now let's create some ledges
-            platforms.create(600, 400, 'ground');
-            platforms.create(50, 250, 'ground');
+                           // w    h
+            platforms.create(500, 400, 'ground');
+            platforms.create(400, 300, 'ground');
             platforms.create(750, 220, 'ground');
+
+            platforms.create(400, 200, 'coin');
 
             // The player and its settings
             player = this.physics.add.sprite(100, 450, 'dude');
