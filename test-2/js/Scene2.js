@@ -78,8 +78,8 @@ class Scene2 extends Phaser.Scene {
     graphics.beginPath();
     graphics.moveTo(0, 0);
     graphics.lineTo(config.width, 0);
-    graphics.lineTo(config.width, 20);
-    graphics.lineTo(0, 20);
+    graphics.lineTo(config.width, 40);
+    graphics.lineTo(0, 40);
     graphics.lineTo(0, 0);
     //
     graphics.closePath();
@@ -87,7 +87,9 @@ class Scene2 extends Phaser.Scene {
 
     this.score = 0;
     var scoreFormated = this.zeroPad(this.score, 6);
-    this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE " + scoreFormated  , 16);
+    this.scoreLabel = this.add.bitmapText(10, 10, "pixelFont", "SCORE " + scoreFormated  , 32);
+
+    this.titleLabel = this.add.bitmapText(config.width / 2, 10, "pixelFont", "Island Protector 1", 35);
 
   }
 
