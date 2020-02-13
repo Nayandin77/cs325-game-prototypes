@@ -23,13 +23,13 @@ class Scene0 extends Phaser.Scene {
         this.music = this.sound.add("music");
 
         var musicConfig = {
-        mute: false,
-        volume: 0.4,
-        rate: 1,
-        detune: 0,
-        seek: 0,
-        loop: false,
-        delay: 0
+            mute: false,
+            volume: 0.1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
         }
 
     this.music.play(musicConfig);
