@@ -4,8 +4,6 @@ class Scene1 extends Phaser.Scene {
   }
 
   preload(){
-    this.load.image("sea", "assets/images/sea.png");
-    
     this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
       frameWidth: 16,
       frameHeight: 16
@@ -34,15 +32,10 @@ class Scene1 extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16
     });
-
-    this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
+  
   }
 
   create() {
-    this.add.text(20, 20, "Loading game...");
-
-    
-
     this.scene.start("playGame");
 
     this.anims.create({

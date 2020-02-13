@@ -1,13 +1,14 @@
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
-
   }
 
   create() {
 
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "sea");
     this.background.setOrigin(0, 0);
+
+    this.timeInSeconds = 120;
 
     this.ship1 = this.add.sprite(config.width / 2 - 50, config.height / 2, "ship").setScale(2,2);
     this.ship2 = this.add.sprite(config.width / 2, config.height / 2, "ship2").setScale(2,2);
@@ -58,7 +59,6 @@ class Scene2 extends Phaser.Scene {
     this.player.setCollideWorldBounds(true);
 
 
-
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.projectiles = this.add.group();
@@ -73,6 +73,7 @@ class Scene2 extends Phaser.Scene {
 
     this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
 
+    
     var graphics = this.add.graphics();
     graphics.fillStyle(0x000000, 1);
     graphics.beginPath();
@@ -90,6 +91,9 @@ class Scene2 extends Phaser.Scene {
     this.scoreLabel = this.add.bitmapText(10, 10, "pixelFont", "SCORE " + scoreFormated  , 32);
 
     this.titleLabel = this.add.bitmapText(config.width / 2, 10, "pixelFont", "Island Protector 1", 35);
+
+    // this.countLabel = this.add.bitmapText(config.width - 50, 10, "pixelFont", ("%d",this.timeInSeconds), 30);
+    // this.timedEvent = this.time.delayedCall(1000, onEvent, [], this);
 
   }
 
@@ -188,7 +192,10 @@ class Scene2 extends Phaser.Scene {
       beam.update();
     }
 
-
+    // this.timeInSeconds -= 1;
+    // this.countLabel.destroy();
+    // this.countLabel = this.add.bitmapText(config.width - 50, 10, "pixelFont", ("%d",timedEvent.getProgress().string()), 30);
+    
   }
 
   shootBeam() {
