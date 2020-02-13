@@ -95,10 +95,16 @@ class Scene2 extends Phaser.Scene {
     // this.countLabel = this.add.bitmapText(config.width - 50, 10, "pixelFont", ("%d",this.timeInSeconds), 30);
     // this.timedEvent = this.time.delayedCall(1000, onEvent, [], this);
 
+    // 1.2 create the sounds to be used
+    this.beamSound = this.sound.add("audio_beam");
+    this.explosionSound = this.sound.add("audio_explosion");
+    this.pickupSound = this.sound.add("audio_pickup");
+
   }
 
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
+    this.pickupSound.play();
   }
 
   hurtPlayer(player, enemy) {
@@ -152,8 +158,6 @@ class Scene2 extends Phaser.Scene {
   }
 
   hitEnemy(projectile, enemy) {
-
-    // 2.1 spawn an explosion animation
     var explosion = new Explosion(this, enemy.x, enemy.y);
 
     projectile.destroy();
@@ -162,6 +166,8 @@ class Scene2 extends Phaser.Scene {
 
      var scoreFormated = this.zeroPad(this.score, 6);
      this.scoreLabel.text = "SCORE " + scoreFormated;
+
+     this.explosionSound.play();
   }
 
 
