@@ -5,11 +5,11 @@ var gameSettings = {
   }
   
   var config = {
-    width: 700,
-    height: 600,
+    width: 494,
+    height: 700,
     backgroundColor: 0x000000,
     parent: 'game',
-    scene: [Scene0, Scene1, Scene2],
+    scene: [Scene0, Scene1, Scene2, Scene3],
     pixelArt: true,
     physics: {
       default: "arcade",

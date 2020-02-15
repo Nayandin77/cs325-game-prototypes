@@ -4,7 +4,7 @@ class Scene0 extends Phaser.Scene {
     }
 
     preload() {        
-        this.load.image("sea", "assets/images/sea.png");
+        this.load.image("sea", "assets/images/cyber_female_sm.png");
 
         this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
 
@@ -19,19 +19,18 @@ class Scene0 extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "sea");
         this.background.setOrigin(0, 0);
 
-        this.music = this.sound.add("music");
+        // this.music = this.sound.add("music");
 
-        var musicConfig = {
-            mute: false,
-            volume: 0.5,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: false,
-            delay: 0
-        }
-
-    this.music.play(musicConfig);
+        // var musicConfig = {
+        //     mute: false,
+        //     volume: 0.5,
+        //     rate: 1,
+        //     detune: 0,
+        //     seek: 0,
+        //     loop: false,
+        //     delay: 0
+        // }
+        // this.music.play(musicConfig);
 
         var graphics = this.add.graphics();
         graphics.fillStyle(0x565656, .35);
@@ -77,7 +76,7 @@ class Scene0 extends Phaser.Scene {
 
     update() {
         if (this.keyEnter.isDown) {
-            this.scene.start("bootGame");
+            this.scene.start("bootCutscene");
         } 
     }
 

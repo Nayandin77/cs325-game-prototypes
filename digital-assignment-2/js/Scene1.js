@@ -1,101 +1,34 @@
 class Scene1 extends Phaser.Scene {
-  constructor() {
-    super("bootGame");
-  }
+    constructor() {
+      super("bootCutscene");
+    }
 
-  preload(){
-    this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
-      frameWidth: 16,
-      frameHeight: 16
-    });
-    this.load.spritesheet("ship2", "assets/spritesheets/ship2.png",{
-      frameWidth: 32,
-      frameHeight: 16
-    });
-    this.load.spritesheet("ship3", "assets/spritesheets/ship3.png",{
-      frameWidth: 32,
-      frameHeight: 32
-    });
-    this.load.spritesheet("explosion", "assets/spritesheets/explosion.png",{
-      frameWidth: 16,
-      frameHeight: 16
-    });
-    this.load.spritesheet("power-up", "assets/spritesheets/power-up.png",{
-      frameWidth: 16,
-      frameHeight: 16
-    });
-    this.load.spritesheet("player", "assets/spritesheets/player.png",{
-      frameWidth: 16,
-      frameHeight: 24
-    });
-    this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
-      frameWidth: 16,
-      frameHeight: 16
-    });
-  
-  }
+    preload() {
+        
+    }
 
-  create() {
-    this.scene.start("playGame");
+    create() {
+        this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-    this.anims.create({
-      key: "ship1_anim",
-      frames: this.anims.generateFrameNumbers("ship"),
-      frameRate: 20,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "ship2_anim",
-      frames: this.anims.generateFrameNumbers("ship2"),
-      frameRate: 20,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "ship3_anim",
-      frames: this.anims.generateFrameNumbers("ship3"),
-      frameRate: 20,
-      repeat: -1
-    });
+        this.music = this.sound.add("music");
 
-    this.anims.create({
-      key: "explode",
-      frames: this.anims.generateFrameNumbers("explosion"),
-      frameRate: 20,
-      repeat: 0,
-      hideOnComplete: true
-    });
+        var musicConfig = {
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        }
+        this.music.play(musicConfig);
+    }
 
-    this.anims.create({
-      key: "red",
-      frames: this.anims.generateFrameNumbers("power-up", {
-        start: 0,
-        end: 1
-      }),
-      frameRate: 20,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "gray",
-      frames: this.anims.generateFrameNumbers("power-up", {
-        start: 2,
-        end: 3
-      }),
-      frameRate: 20,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "thrust",
-      frames: this.anims.generateFrameNumbers("player"),
-      frameRate: 20,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: "beam_anim",
-      frames: this.anims.generateFrameNumbers("beam"),
-      frameRate: 20,
-      repeat: -1
-    });
-
-  }
+    update() {
+        // if (this.keyEnter.isDown) {
+        //     this.scene.start("bootGame");
+        // }
+        
+        /* TO DO - ADD TIMER OF 27.5 SECONDS UNTIL BOOTS TO GAME*/
+    }
 }
