@@ -47,16 +47,16 @@ class Scene3 extends Phaser.Scene {
       powerUp.setVelocity(gameSettings.powerUpVel, gameSettings.powerUpVel);
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(1);
-
     }
 
-
+    // controls to the game
     this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player").setScale(2,2);
     this.player.play("thrust");
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
+    this.player.lives = 3;
 
-
+    // spacebar to shoot
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.projectiles = this.add.group();
@@ -65,13 +65,12 @@ class Scene3 extends Phaser.Scene {
       projectile.destroy();
     });
 
+    // if player interacts with other objects
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
-
     this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
-
     this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
 
-    
+    // setting black bar at the top
     var graphics = this.add.graphics();
     graphics.fillStyle(0x000000, 1);
     graphics.beginPath();
@@ -80,22 +79,24 @@ class Scene3 extends Phaser.Scene {
     graphics.lineTo(config.width, 40);
     graphics.lineTo(0, 40);
     graphics.lineTo(0, 0);
-    //
     graphics.closePath();
     graphics.fillPath();
 
+    // score text
     this.score = 0;
     var scoreFormated = this.zeroPad(this.score, 6);
     this.scoreLabel = this.add.bitmapText(10, 10, "pixelFont", "SCORE " + scoreFormated  , 32);
 
+    // title text
     this.titleLabel = this.add.bitmapText(config.width / 2, 10, "pixelFont", "Island Protector 2", 35);
 
+    // set the time ~ 120 seconds
     this.timeInSeconds = 4800;
     this.text = this.add.text(config.width - 50, 10, ("%d",this.timeInSeconds));
     this.text.setFont("pixelFont")
     this.text.setFontSize(20);
 
-    // 1.2 create the sounds to be used
+    // create the sounds to be used
     this.beamSound = this.sound.add("audio_beam");
     this.explosionSound = this.sound.add("audio_explosion");
     this.pickupSound = this.sound.add("audio_pickup");
@@ -108,21 +109,22 @@ class Scene3 extends Phaser.Scene {
   }
 
   hurtPlayer(player, enemy) {
+    this.player.lives--;
 
     this.resetShipPos(enemy);
 
-    // 4.3 don't hurt the player if it is invincible
+    // don't hurt the player if it is invincible
     if(this.player.alpha < 1){
         return;
     }
 
-    // 2.2 spawn a explosion animation
+    // spawn a explosion animation
     var explosion = new Explosion(this, player.x, player.y);
 
-    // 2.3 disable the player and hide it
+    // disable the player and hide it
     player.disableBody(true, true);
 
-    // 3.1 after a time enable the player again
+    // after a time enable the player again
     this.time.addEvent({
       delay: 1000,
       callback: this.resetPlayer,
@@ -198,13 +200,15 @@ class Scene3 extends Phaser.Scene {
       beam.update();
     }
 
-    //this.timedLabel = this.add.bitmapText(config.width - 50, 10, "pixelFont", ("%d",(Math.floor(this.timeInSeconds / 30))), 30);
-    //this.timeInSeconds--;
     this.text.setText((Math.floor(this.timeInSeconds / 40)));
     this.timeInSeconds--;
 
-    if (this.timeInSeconds == 0) {
+    if (this.timeInSeconds <= 0) {
       this.scene.start("titleScreen");
+    }
+
+    if (this.player.lives < 0) {
+      this.scene.start("endScreen");
     }
     
   }
