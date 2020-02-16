@@ -3,9 +3,14 @@ class Scene3 extends Phaser.Scene {
     super("playGame");
   }
 
+  preload() {
+    // load background image
+    this.load.image("background", "assets/images/background.png");
+  }
+
   create() {
 
-    this.background = this.add.tileSprite(0, 0, config.width, config.height, "sea");
+    this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
     this.background.setOrigin(0, 0);
 
     this.ship1 = this.add.sprite(config.width / 2 - 50, config.height / 2, "ship").setScale(2,2);
@@ -54,7 +59,6 @@ class Scene3 extends Phaser.Scene {
     this.player.play("thrust");
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
-    this.player.lives = 3;
 
     // spacebar to shoot
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -85,16 +89,22 @@ class Scene3 extends Phaser.Scene {
     // score text
     this.score = 0;
     var scoreFormated = this.zeroPad(this.score, 6);
-    this.scoreLabel = this.add.bitmapText(10, 10, "pixelFont", "SCORE " + scoreFormated  , 32);
+    this.scoreLabel = this.add.bitmapText(10, 10, "pixelFont", "SCORE " + scoreFormated , 25);
 
     // title text
-    this.titleLabel = this.add.bitmapText(config.width / 2, 10, "pixelFont", "Island Protector 2", 35);
+    this.titleLabel = this.add.bitmapText(config.width / 2 - 90, 10, "pixelFont", "Island Protector 2", 25);
+
+    // player lives text
+    this.player.lives = 3;
+    this.playerLabel = this.add.text(config.width - 140, 10, ("Lives: " + this.player.lives));
+    this.playerLabel.setFont("pixelFont")
+    this.playerLabel.setFontSize(16);
 
     // set the time ~ 120 seconds
     this.timeInSeconds = 4800;
-    this.text = this.add.text(config.width - 50, 10, ("%d",this.timeInSeconds));
+    this.text = this.add.text(config.width - 40, 10, ("%d",this.timeInSeconds));
     this.text.setFont("pixelFont")
-    this.text.setFontSize(20);
+    this.text.setFontSize(16);
 
     // create the sounds to be used
     this.beamSound = this.sound.add("audio_beam");
@@ -109,7 +119,8 @@ class Scene3 extends Phaser.Scene {
   }
 
   hurtPlayer(player, enemy) {
-    this.player.lives--;
+    this.player.lives--
+    this.playerLabel.setText("Lives: "+ this.player.lives);
 
     this.resetShipPos(enemy);
 

@@ -56,7 +56,7 @@ class Scene0 extends Phaser.Scene {
             config.width / 2 - 227,
             config.height - 110,
             "pixelFont",
-            "TO MOVE: arrow keys\nTO SHOOT: space bar\n\n3 lives",
+            "TO MOVE: arrow keys\nTO SHOOT: space bar\n\nLives: 3",
             26 // font size
         );
         this.instructionsText.setTint("0xF7FAFF");
