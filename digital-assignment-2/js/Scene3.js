@@ -13,9 +13,9 @@ class Scene3 extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
     this.background.setOrigin(0, 0);
 
-    this.ship1 = this.add.sprite(config.width / 2 - 50, config.height / 2, "ship").setScale(2,2);
-    this.ship2 = this.add.sprite(config.width / 2, config.height / 2, "ship2").setScale(2,2);
-    this.ship3 = this.add.sprite(config.width / 2 + 50, config.height / 2, "ship3").setScale(2,2);
+    this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");//.setScale(1.5,1.5);
+    this.ship2 = this.add.sprite(config.width / 2, config.height, "ship2").setScale(2,2);
+    this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "ship3").setScale(2,2);
 
     this.enemies = this.physics.add.group();
     this.enemies.add(this.ship1);
@@ -23,7 +23,7 @@ class Scene3 extends Phaser.Scene {
     this.enemies.add(this.ship3);
 
 
-    this.ship1.play("ship1_anim");
+    this.ship1.play("enemy_ship_1_anim");
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
 
@@ -55,7 +55,7 @@ class Scene3 extends Phaser.Scene {
     }
 
     // controls to the game
-    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player").setScale(2,2);
+    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player").setScale(1.5,1.5);
     this.player.play("thrust");
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);

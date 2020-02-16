@@ -4,9 +4,9 @@ class Scene2 extends Phaser.Scene {
   }
 
   preload(){
-    this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
-      frameWidth: 16,
-      frameHeight: 16
+    this.load.spritesheet("enemy_ship_1", "assets/spritesheets/enemy_ship_1.png",{
+      frameWidth: 20,
+      frameHeight: 34
     });
     this.load.spritesheet("ship2", "assets/spritesheets/ship2.png",{
       frameWidth: 32,
@@ -24,9 +24,9 @@ class Scene2 extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16
     });
-    this.load.spritesheet("player", "assets/spritesheets/player.png",{
-      frameWidth: 16,
-      frameHeight: 24
+    this.load.spritesheet("player", "assets/spritesheets/player_plane.png",{
+      frameWidth: 39,
+      frameHeight: 52
     });
     this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
       frameWidth: 16,
@@ -39,8 +39,8 @@ class Scene2 extends Phaser.Scene {
     this.scene.start("playGame");
 
     this.anims.create({
-      key: "ship1_anim",
-      frames: this.anims.generateFrameNumbers("ship"),
+      key: "enemy_ship_1_anim",
+      frames: this.anims.generateFrameNumbers("enemy_ship_1"),
       frameRate: 20,
       repeat: -1
     });
