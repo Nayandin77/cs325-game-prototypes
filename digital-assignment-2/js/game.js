@@ -10,6 +10,7 @@ var gameSettings = {
     backgroundColor: 0x000000,
     parent: 'game',
     scene: [Scene0, Scene1, Scene2, Scene3, Scene4],
+    // scene: [Scene3, Scene4],
     pixelArt: true,
     physics: {
       default: "arcade",

@@ -8,13 +8,17 @@ class Scene2 extends Phaser.Scene {
       frameWidth: 20,
       frameHeight: 34
     });
-    this.load.spritesheet("ship2", "assets/spritesheets/ship2.png",{
+    this.load.spritesheet("enemy_ship_2", "assets/spritesheets/enemy_ship_2.png",{
       frameWidth: 32,
       frameHeight: 16
     });
-    this.load.spritesheet("ship3", "assets/spritesheets/ship3.png",{
-      frameWidth: 32,
-      frameHeight: 32
+    this.load.spritesheet("enemy_ship_3", "assets/spritesheets/enemy_ship_3.png",{
+      frameWidth: 41,
+      frameHeight: 37
+    });
+    this.load.spritesheet("boss", "assets/spritesheets/boss.png",{
+      frameWidth: 450,
+      frameHeight: 200
     });
     this.load.spritesheet("explosion", "assets/spritesheets/explosion.png",{
       frameWidth: 16,
@@ -45,14 +49,20 @@ class Scene2 extends Phaser.Scene {
       repeat: -1
     });
     this.anims.create({
-      key: "ship2_anim",
-      frames: this.anims.generateFrameNumbers("ship2"),
+      key: "enemy_ship_2_anim",
+      frames: this.anims.generateFrameNumbers("enemy_ship_2"),
       frameRate: 20,
       repeat: -1
     });
     this.anims.create({
-      key: "ship3_anim",
-      frames: this.anims.generateFrameNumbers("ship3"),
+      key: "enemy_ship_3_anim",
+      frames: this.anims.generateFrameNumbers("enemy_ship_3"),
+      frameRate: 20,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "boss_anim",
+      frames: this.anims.generateFrameNumbers("boss"),
       frameRate: 20,
       repeat: -1
     });

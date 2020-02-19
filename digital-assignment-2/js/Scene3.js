@@ -13,23 +13,28 @@ class Scene3 extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
     this.background.setOrigin(0, 0);
 
-    this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");//.setScale(1.5,1.5);
-    this.ship2 = this.add.sprite(config.width / 2, config.height, "ship2").setScale(2,2);
-    this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "ship3").setScale(2,2);
+    this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");
+    this.ship2 = this.add.sprite(config.width / 2, config.height, "enemy_ship_2").setScale(1.3,1.3);
+    this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "enemy_ship_3");
+    //this.boss = this.add.sprite(config.width / 2, config.height, "boss");
 
     this.enemies = this.physics.add.group();
     this.enemies.add(this.ship1);
     this.enemies.add(this.ship2);
     this.enemies.add(this.ship3);
 
+    //this.enemies.add(this.boss);
+
 
     this.ship1.play("enemy_ship_1_anim");
-    this.ship2.play("ship2_anim");
-    this.ship3.play("ship3_anim");
+    this.ship2.play("enemy_ship_2_anim");
+    this.ship3.play("enemy_ship_3_anim");
+    //this.boss.play("boss_anim");
 
     this.ship1.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
+    //this.boss.setInteractive();
 
     this.input.on('gameobjectdown', this.destroyShip, this);
 
@@ -55,7 +60,7 @@ class Scene3 extends Phaser.Scene {
     }
 
     // controls to the game
-    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player").setScale(1.5,1.5);
+    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player").setScale(1.2,1.2);
     this.player.play("thrust");
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
@@ -145,18 +150,15 @@ class Scene3 extends Phaser.Scene {
   }
 
   resetPlayer(){
-    // 3.2 enable the player again
+    // nable the player again
     var x = config.width / 2 - 8;
     var y = config.height + 64;
     this.player.enableBody(true, x, y, true, true);
 
-
-    //
-    // 4.1 make the player transparent to indicate invulnerability
+    // make the player transparent to indicate invulnerability
     this.player.alpha = 0.5;
-    //
-    //
-    // 4.2 move the ship from outside the screen to its original position
+  
+    // move the ship from outside the screen to its original position
     var tween = this.tweens.add({
       targets: this.player,
       y: config.height - 64,
@@ -262,6 +264,5 @@ class Scene3 extends Phaser.Scene {
     gameObject.setTexture("explosion");
     gameObject.play("explode");
   }
-
 
 }
