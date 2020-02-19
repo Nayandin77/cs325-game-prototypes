@@ -9,14 +9,13 @@ class Scene3 extends Phaser.Scene {
   }
 
   create() {
-
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
     this.background.setOrigin(0, 0);
 
     this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");
     this.ship2 = this.add.sprite(config.width / 2, config.height, "enemy_ship_2").setScale(1.3,1.3);
     this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "enemy_ship_3");
-    //this.boss = this.add.sprite(config.width / 2, config.height, "boss");
+    this.boss  = this.add.sprite(config.width / 2, 140, "boss");
 
     this.enemies = this.physics.add.group();
     this.enemies.add(this.ship1);
@@ -124,6 +123,7 @@ class Scene3 extends Phaser.Scene {
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.pickupSound.play();
+    this.score += 1000;
     this.beam_counter++;
   }
 

@@ -36,6 +36,16 @@ class Scene4 extends Phaser.Scene {
       );
       this.gameOverText.setTint("0xFFFFFF");
 
+      // // score over text
+      // this.gameOverText = this.add.bitmapText(
+      //   config.width / 2 - 100,
+      //   config.height / 2 - 80,
+      //   "pixelFont",
+      //   "Score: " + this.Scene.,
+      //   48 // font size
+      // );
+      // this.gameOverText.setTint("0xFFFFFF");
+
       // restart text
       this.restartText = this.add.bitmapText(
         config.width / 2 - 80,
@@ -43,8 +53,11 @@ class Scene4 extends Phaser.Scene {
         "pixelFont",
         "\nRestart: Ctrl+Shift R",
         22 // font size
-    );
-    this.restartText.setTint("0xFFFFFF");
+      );
+      this.restartText.setTint("0xFFFFFF");
+
+      console.log(this.music);
+      //scene.music.pause();
     }
 
     update() {

@@ -30,6 +30,7 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+        //console.log(this.music);
 
         // time until game begins
         this.timeInSeconds = 1630; // roughly 27.5 seconds
