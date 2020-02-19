@@ -8,12 +8,11 @@ class Beam extends Phaser.GameObjects.Sprite{
 
     scene.add.existing(this);
 
-    this.play("beam_anim").setScale(2,2);
+    this.play("beam_anim").setScale(1,1);
     scene.physics.world.enableBody(this);
     this.body.velocity.y = - 500;
 
     scene.projectiles.add(this);
-
   }
 
 

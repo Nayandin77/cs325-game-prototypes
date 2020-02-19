@@ -65,6 +65,9 @@ class Scene3 extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
 
+    // counter for beams & beam controller
+    this.beam_counter = 1;
+
     // spacebar to shoot
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -121,6 +124,7 @@ class Scene3 extends Phaser.Scene {
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.pickupSound.play();
+    this.beam_counter++;
   }
 
   hurtPlayer(player, enemy) {
@@ -205,14 +209,40 @@ class Scene3 extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       if(this.player.active){
-          this.shootBeam();
+          if (this.beam_counter == 1) {
+            this.shootBeam();
+          }
+          if (this.beam_counter == 2) {
+            this.shootBeam();
+            this.shootBeam_outer_1();
+          }
+          if (this.beam_counter == 3) {
+            this.shootBeam();
+            this.shootBeam_outer_1();
+            this.shootBeam_inner_1();
+          }
+          if (this.beam_counter == 4) {
+            this.shootBeam();
+            this.shootBeam_outer_1();
+            this.shootBeam_inner_1();
+            this.shootBeam_inner_2();
+          }
+          if (this.beam_counter == 5) {
+            this.shootBeam();
+            this.shootBeam_outer_1();
+            this.shootBeam_outer_2();
+            this.shootBeam_inner_1();
+            this.shootBeam_inner_2();
+          }
       }
     }
+
     for (var i = 0; i < this.projectiles.getChildren().length; i++) {
       var beam = this.projectiles.getChildren()[i];
       beam.update();
     }
 
+    // time logic
     this.text.setText((Math.floor(this.timeInSeconds / 40)));
     this.timeInSeconds--;
 
@@ -223,15 +253,50 @@ class Scene3 extends Phaser.Scene {
     if (this.player.lives < 0) {
       this.scene.start("endScreen");
     }
-    
   }
 
   shootBeam() {
       var beam = new Beam(this);
   }
 
-  movePlayerManager() {
+  shootBeam_outer_1() {
+    var beam1 = new Beam(this);
+    var beam2 = new Beam(this);
+    beam1.x -= 26;
+    beam1.y += 30;
+    beam2.x += 26;
+    beam2.y += 30;
+  }
 
+  shootBeam_outer_2() {
+    var beam1 = new Beam(this);
+    var beam2 = new Beam(this);
+    beam1.x -= 20;
+    beam1.y += 28;
+    beam2.x += 20;
+    beam2.y += 28;
+  }
+
+  shootBeam_inner_1() {
+    var beam1 = new Beam(this);
+    var beam2 = new Beam(this);
+    beam1.x -= 10;
+    beam1.y += 25;
+    beam2.x += 10;
+    beam2.y += 25;
+  }
+
+  shootBeam_inner_2() {
+    var beam1 = new Beam(this);
+    var beam2 = new Beam(this);
+    beam1.x -= 5;
+    beam1.y += 20;
+    beam2.x += 5;
+    beam2.y += 20;
+  }
+
+  // Player Movement
+  movePlayerManager() {
     this.player.setVelocity(0);
 
     if (this.cursorKeys.left.isDown) {
