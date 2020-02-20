@@ -15,6 +15,7 @@ class Scene3 extends Phaser.Scene {
     this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");
     this.ship2 = this.add.sprite(config.width / 2, config.height, "enemy_ship_2").setScale(1.3,1.3);
     this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "enemy_ship_3");
+    this.ship4 = this.add.sprite(config.width / 2 - 20, config.height, "enemy_ship_3");
     //this.boss  = this.add.sprite(config.width / 2, 140, "boss");
     this.boss  = this.add.sprite(-500, -500, "boss"); // spawns boss way outside
 
@@ -23,19 +24,22 @@ class Scene3 extends Phaser.Scene {
     this.enemies.add(this.ship1);
     this.enemies.add(this.ship2);
     this.enemies.add(this.ship3);
+    this.enemies.add(this.ship4);
     this.enemies.add(this.boss); // need to modify
 
-    console.log(this.enemies.get("boss"));
+    //console.log(this.enemies.get("boss"));
 
     // Plays animation
     this.ship1.play("enemy_ship_1_anim");
     this.ship2.play("enemy_ship_2_anim");
     this.ship3.play("enemy_ship_3_anim");
+    this.ship4.play("enemy_ship_3_anim");
     this.boss.play("boss_anim");
 
     this.ship1.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
+    this.ship4.setInteractive();
     this.boss.setInteractive();    
 
     this.input.on('gameobjectdown', this.destroyShip, this);
@@ -112,6 +116,7 @@ class Scene3 extends Phaser.Scene {
 
     // set the time ~ 120 seconds
     this.timeInSeconds = 4800;
+    //this.timeInSeconds = 500; // test
     this.text = this.add.text(config.width - 40, 10, ("%d",this.timeInSeconds));
     this.text.setFont("pixelFont")
     this.text.setFontSize(16);
@@ -121,6 +126,10 @@ class Scene3 extends Phaser.Scene {
     this.explosionSound = this.sound.add("audio_explosion");
     this.pickupSound = this.sound.add("audio_pickup");
 
+    // Lowers volume sound
+    this.beamSound.volume = 0.2;
+    this.explosionSound.volume = 0.2;
+    this.pickupSound.volume = 0.3;
   }
 
   pickPowerUp(player, powerUp) {
@@ -183,7 +192,14 @@ class Scene3 extends Phaser.Scene {
     var explosion = new Explosion(this, enemy.x, enemy.y);
 
     projectile.destroy();
-    this.resetShipPos(enemy);
+
+    if (enemy.texture.key == "enemy_ship_1") {
+      this.resetShipPos_enemy_ship_3(enemy);
+    }
+
+    if (!(enemy.texture.key == "enemy_ship_1"))
+      this.resetShipPos(enemy);
+
     this.score += 15;
 
      var scoreFormated = this.zeroPad(this.score, 6);
@@ -202,9 +218,10 @@ class Scene3 extends Phaser.Scene {
   }
 
   update() {
-    this.moveShip(this.ship1, 4);
-    this.moveShip(this.ship2, 3);
-    this.moveShip(this.ship3, 4);
+    this.moveShip(this.ship1, 5);
+    this.moveShip(this.ship2, 4);
+    this.moveShip(this.ship3, 2);
+    this.moveShip(this.ship4, 2);
 
     this.background.tilePositionY -= 0.5;
 
@@ -258,9 +275,9 @@ class Scene3 extends Phaser.Scene {
       this.scene.start("endScreen");
     }
 
-    if (this.timeInSeconds == 4600) {
-      // var b = this.enemies.get("boss");
-      // b. setXY(config.width / 2, 140);
+    if (this.timeInSeconds == 400) {
+      this.boss.x = config.width / 2;
+      this.boss.y = 600;
     }
 
   }
@@ -333,6 +350,12 @@ class Scene3 extends Phaser.Scene {
   resetShipPos(ship) {
     ship.y = 0;
     var randomX = Phaser.Math.Between(0, config.width);
+    ship.x = randomX;
+  }
+
+  resetShipPos_enemy_ship_3(ship) {
+    ship.y = 0;
+    var randomX = Phaser.Math.Between(0, config.width / 2);
     ship.x = randomX;
   }
 

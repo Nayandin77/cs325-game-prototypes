@@ -34,7 +34,7 @@ class Scene1 extends Phaser.Scene {
 
         // time until game begins
         this.timeInSeconds = 1630; // roughly 27.5 seconds
-        this.timeInSeconds = 0;  // testing purposes
+        //this.timeInSeconds = 0;  // testing purposes
         this.text = this.add.text(config.width - 30, 10, ("%d",this.timeInSeconds));
 
         // setting black bar at the bottom

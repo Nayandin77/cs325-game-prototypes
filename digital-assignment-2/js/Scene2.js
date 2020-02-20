@@ -16,7 +16,7 @@ class Scene2 extends Phaser.Scene {
       frameWidth: 41,
       frameHeight: 37
     });
-    this.load.spritesheet("boss", "assets/spritesheets/boss_ship.png",{
+    this.load.spritesheet("boss", "assets/spritesheets/boss_ship_v3.png",{
       frameWidth: 450,
       frameHeight: 200
     });
