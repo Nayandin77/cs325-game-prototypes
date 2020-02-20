@@ -15,25 +15,28 @@ class Scene3 extends Phaser.Scene {
     this.ship1 = this.add.sprite(config.width / 2 - 50, config.height, "enemy_ship_1");
     this.ship2 = this.add.sprite(config.width / 2, config.height, "enemy_ship_2").setScale(1.3,1.3);
     this.ship3 = this.add.sprite(config.width / 2 + 50, config.height, "enemy_ship_3");
-    this.boss  = this.add.sprite(config.width / 2, 140, "boss");
+    //this.boss  = this.add.sprite(config.width / 2, 140, "boss");
+    this.boss  = this.add.sprite(-500, -500, "boss"); // spawns boss way outside
 
+    // Physics for enemies
     this.enemies = this.physics.add.group();
     this.enemies.add(this.ship1);
     this.enemies.add(this.ship2);
     this.enemies.add(this.ship3);
+    this.enemies.add(this.boss); // need to modify
 
-    //this.enemies.add(this.boss);
+    console.log(this.enemies.get("boss"));
 
-
+    // Plays animation
     this.ship1.play("enemy_ship_1_anim");
     this.ship2.play("enemy_ship_2_anim");
     this.ship3.play("enemy_ship_3_anim");
-    //this.boss.play("boss_anim");
+    this.boss.play("boss_anim");
 
     this.ship1.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
-    //this.boss.setInteractive();
+    this.boss.setInteractive();    
 
     this.input.on('gameobjectdown', this.destroyShip, this);
 
@@ -41,9 +44,9 @@ class Scene3 extends Phaser.Scene {
 
     this.powerUps = this.physics.add.group();
 
-
+    // Spawning in powerUps
     for (var i = 0; i < gameSettings.maxPowerups; i++) {
-      var powerUp = this.physics.add.sprite(16, 16, "power-up").setScale(2,2);
+      var powerUp = this.physics.add.sprite(16, 16, "power-up").setScale(1,1);
       this.powerUps.add(powerUp);
       powerUp.setRandomPosition(0, 0, game.config.width, game.config.height);
 
@@ -207,6 +210,7 @@ class Scene3 extends Phaser.Scene {
 
     this.movePlayerManager();
 
+    // Beam 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       if(this.player.active){
           if (this.beam_counter == 1) {
@@ -253,10 +257,17 @@ class Scene3 extends Phaser.Scene {
     if (this.player.lives < 0) {
       this.scene.start("endScreen");
     }
+
+    if (this.timeInSeconds == 4600) {
+      // var b = this.enemies.get("boss");
+      // b. setXY(config.width / 2, 140);
+    }
+
   }
 
   shootBeam() {
       var beam = new Beam(this);
+      beam.y += 8;
   }
 
   shootBeam_outer_1() {
