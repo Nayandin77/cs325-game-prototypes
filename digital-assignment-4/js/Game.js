@@ -65,7 +65,7 @@ class playGame extends Phaser.Scene{
         super("PlayGame");
     }
     preload(){
-        this.load.image("tile", "assets/tile.png");
+        this.load.image("chicken", "assets/chicken.png");
         this.load.image("gun", "assets/gun.png");
         this.load.image("fireline", "assets/fireline.png");
     }
@@ -105,10 +105,10 @@ class playGame extends Phaser.Scene{
         for(let i = 0; i < gameOptions.targets; i++){
 
             // target aren't sprites but followers!!!!
-            let target = this.add.follower(this.path, offset.x + gameOptions.curveRadius, offset.y, "tile");
-            target.alpha = 0.8;
-            // target.displayWidth = Phaser.Math.RND.between(gameOptions.targetSize.min, gameOptions.targetSize.max)
-            target.displayWidth = 20
+            let target = this.add.follower(this.path, offset.x + gameOptions.curveRadius, offset.y, "chicken");
+            target.alpha = 1.0;
+            //target.displayWidth = Phaser.Math.RND.between(gameOptions.targetSize.min, gameOptions.targetSize.max)
+            target.setScale(2.5,2.5)
             this.targets.add(target);
 
             // the core of the script: targets run along the path starting from a random position
