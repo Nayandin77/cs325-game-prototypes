@@ -1,0 +1,44 @@
+1. Your game title
+- Heroes in Capes
+
+2. Originality: What is original about your game?
+- Everything will be designed from scratch. (I've already picked out some color palettes as well as inspiration for certain elements in the game.)
+
+3. Prototype Closest Other Game:
+- (Visuals) Characters should look similar to the ones in Destiny or Warframe, but
+- (Gameplay) will resemble any top-down shooter.
+
+4. High Concept: A one-sentence summary of your game.
+- A simple shooter where the player can swap between different characters in order to beat the game.
+
+5. Prototype Goal: What game mechanic is this prototype evaluating?
+- Levels system (w/ a progress bar)
+- In game currency
+
+6. Player Experience Goals: What experience do you want players to have when playing your game?
+- Progress with all the characters in order to beat the whole game. Each different character will
+have an easier time defeating certain enemies.
+
+7. Gameplay: A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. 
+Include a concise explanation of the prototype’s inputs and their expected effects (how to play). 
+You can also describe game play that is not in the prototype. 
+You may include mock-up images for parts of the game not in the prototype.
+- Players will be using keyboard and mouse to play. 
+- All movement controls will be used with (W,A,S,D) to go (UP, LEFT, DOWN, RIGHT).
+- Special abilites will be used with (Q) and (E), and to reload by using (R).
+- Swapping between characters will either be used by a point and click to select, or by simply selected a key between (1-5) to swap between the 5 heroes.
+- The mouse will be used to aim the weapon.
+
+Strategies: What player strategies do you expect will be effective at playing this game?
+- Swapping between characters in order to defeat certain levels of the game.
+
+8. Story/Setting/Premise: A paragraph about the world your game is set in and who the characters are. 
+What makes the game world and its occupants unique and interesting? Do the tokens represent something? 
+If the game has a backstory, mention it here. 
+If the game is abstract, then say so. 
+How will the dramatic tension interact with the gameplay tension?
+- For the initial release, there won't be much of a story other than 5 heroes shooting their way through levels.
+
+9. Target Audience: A single sentence that describes the demographic you're trying to reach.
+- Anyone, but I guess anyone who enjoys shooters.
+
