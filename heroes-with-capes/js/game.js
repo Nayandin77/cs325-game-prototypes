@@ -1,6 +1,6 @@
 var config = {
-    width: 600,
-    height: 800,
+    width: 800,
+    height: 600,
     backgroundColor: 0x000000,
     parent: 'game',
     scene: [Load],
