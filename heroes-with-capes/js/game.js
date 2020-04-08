@@ -3,7 +3,7 @@ var config = {
     height: 600,
     backgroundColor: 0x000000,
     parent: 'game',
-    scene: [Load],
+    scene: [StartScreen, CutScene, Level0],
     pixelArt: true,
     physics: {
       default: "arcade",
