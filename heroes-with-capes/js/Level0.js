@@ -7,7 +7,7 @@ class Level0 extends Phaser.Scene {
         this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
         this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
-        this.load.image("button", "./assets/gui/example_button.png")
+        // this.load.image("button", "./assets/gui/example_button.png")
 
         // this.load.audio("start_screen_music", 
         //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
@@ -24,6 +24,14 @@ class Level0 extends Phaser.Scene {
         this.load.spritesheet("cupcake", "./assets/spritesheets/cupcake_trans.png",{
             frameWidth: 28,
             frameHeight: 48
+        });
+        this.load.spritesheet("red", "./assets/spritesheets/red_temp.png",{
+            frameWidth: 30,
+            frameHeight: 47
+        });
+        this.load.spritesheet("green", "./assets/spritesheets/green_temp.png",{
+            frameWidth: 30,
+            frameHeight: 47
         });
 
         this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{
@@ -48,9 +56,8 @@ class Level0 extends Phaser.Scene {
         // border.body.immovable = true;
 
         /* GUI DESIGN */
-        this.button_1 = this.add.image(800, 800,'button')//.setScrollFactor(0);
-        
-        // this.button_1.fi
+        // this.button_1 = this.add.image(800, 800,'button')//.setScrollFactor(0);
+    
 
         /* ANIMATION */
         this.anims.create({ // sky's animation
@@ -65,18 +72,24 @@ class Level0 extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         });
-        this.anims.create({
-            key: "cupcake_anim",
-            frames: this.anims.generateFrameNumbers("cupcake", frames[0, 1, 2]),
+        this.anims.create({ // sky's animation
+            key: "red_anim",
+            frames: this.anims.generateFrameNumbers("red"),
             frameRate: 20,
             repeat: -1
         });
-        // this.anims.create({
-        //     key: "cupcake_idle",
-        //     frames: [{key: "cupcake", frame: 4}],
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
+        this.anims.create({
+            key: "green_anim",
+            frames: this.anims.generateFrameNumbers("green"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "cupcake_anim", // _idle
+            frames: [{ key: "cupcake", frame: 3 }],
+            frameRate: 20,
+            repeat: -1
+        });
         // this.anims.create({
         //     key: "cupcake_left",
         //     frames: this.anims.generateFrameNumbers("cupcake", { start: 0, end: 3}),
@@ -97,6 +110,7 @@ class Level0 extends Phaser.Scene {
         });
 
         this.player = this.physics.add.sprite(800, 800, 'sky'); //default character loads 'sky'
+        this.player.data = dat.sky;
         this.player.play("sky_anim");
         this.player.enableBody();
         // this.player.setCollideWorldBounds(true, 2000, 2000);
@@ -120,6 +134,8 @@ class Level0 extends Phaser.Scene {
         this.key_1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
         this.key_2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
         this.key_3 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+        this.key_4 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+        this.key_5 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
 
         // Reload Key
         this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -172,7 +188,8 @@ class Level0 extends Phaser.Scene {
 
         // Update Character
         if (this.key_1.isDown) { // sky
-            this.player.texture = 'sky'; 
+            this.player.texture = 'sky';
+            this.player.data = dat.sky;
             this.player.play("sky_anim");
         } else if (this.key_2.isDown) { // blue
             this.player.texture = 'blue';
@@ -180,6 +197,13 @@ class Level0 extends Phaser.Scene {
         } else if (this.key_3.isDown) { // cupcake
             this.player.texture = 'cupcake'; 
             this.player.play("cupcake_anim");
+        } else if (this.key_4.isDown) { // cupcake
+            this.player.texture = 'cupcake'; 
+            this.player.play("green_anim");
+        } else if (this.key_5.isDown) { // cupcake
+            this.player.texture = 'cupcake'; 
+            this.player.play("red_anim");
+            console.log("hi");
         }
 
         // Shoot

@@ -1,3 +1,14 @@
+var dat = {
+  sky: {
+    "movement": 500,
+    "q": "grenade",
+    "e": "kill-all",
+    "ammo": 30,
+    "animations": "",
+    "bullet_speed": 400,
+  }
+}
+
 var config = {
     width: 800,
     height: 600,
