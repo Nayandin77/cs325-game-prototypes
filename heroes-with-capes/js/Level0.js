@@ -7,7 +7,19 @@ class Level0 extends Phaser.Scene {
         this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
         this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
-        // this.load.image("button", "./assets/gui/example_button.png")
+        this.load.image('bullet', 'assets/spritesheets/bullets/bullet6.png');
+        this.load.image('target', 'assets/spritesheets/reticle.png');
+
+        // GUI Preload
+        this.load.image("button-1", "./assets/gui/no_white/character_button_1.png");
+        this.load.image("button-2", "./assets/gui/no_white/character_button_2.png");
+        this.load.image("button-3", "./assets/gui/no_white/character_button_3.png");
+        this.load.image("button-4", "./assets/gui/no_white/character_button_4.png");
+        this.load.image("button-5", "./assets/gui/no_white/character_button_5.png");
+        this.load.image("Q0E0", "./assets/gui/no_white/Q_0_E_0.png");
+        this.load.image("Q1E0", "./assets/gui/no_white/Q_1_E_0.png");
+        this.load.image("Q0E1", "./assets/gui/no_white/Q_0_E_1.png");
+        this.load.image("Q1E1", "./assets/gui/no_white/Q_1_E_1.png");
 
         // this.load.audio("start_screen_music", 
         //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
@@ -56,8 +68,8 @@ class Level0 extends Phaser.Scene {
         // border.body.immovable = true;
 
         /* GUI DESIGN */
-        // this.button_1 = this.add.image(800, 800,'button')//.setScrollFactor(0);
-    
+        this.character_button = this.physics.add.sprite(800, 1050, 'button-1').setScale(.75,.75);
+        this.special_button = this.physics.add.sprite(1100, 950, 'Q1E1').setScale(.75,.75);
 
         /* ANIMATION */
         this.anims.create({ // sky's animation
@@ -116,8 +128,6 @@ class Level0 extends Phaser.Scene {
         // this.player.setCollideWorldBounds(true, 2000, 2000);
 
 
-        this.projectiles = this.add.group();
-
         /* CONTROLS */
 
         // Movement Controls
@@ -141,7 +151,50 @@ class Level0 extends Phaser.Scene {
         this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Shoot Key
-        this.key_space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        // this.key_space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        // Add 2 groups for Bullet objects
+        this.playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
+        this.reticle = this.physics.add.sprite(800, 700, 'target');
+        this.hp1 = this.add.image(-350, -250, 'target').setScrollFactor(0.5, 0.5);
+        this.hp2 = this.add.image(-300, -250, 'target').setScrollFactor(0.5, 0.5);
+        this.hp3 = this.add.image(-250, -250, 'target').setScrollFactor(0.5, 0.5);
+
+        this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25);
+        this.hp1.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
+        this.hp2.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
+        this.hp3.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
+
+        // Set camera properties
+        this.cameras.main.startFollow(this.player);
+
+        // Fires bullet from player on left click of mouse
+        this.input.on('pointerdown', function (pointer, time, lastFired) {
+            if (this.player.active === false)
+                return;
+
+            // Get bullet from bullets group
+            var bullet = this.playerBullets.get().setActive(true).setVisible(true);
+
+            if (bullet) {
+                bullet.fire(this.player, this.reticle);
+                // this.physics.add.collider(enemy, bullet, enemyHitCallback);
+            }
+        }, this);
+
+
+        // Pointer lock will only work after mousedown
+        game.canvas.addEventListener('mousedown', function () {
+            game.input.mouse.requestPointerLock();
+        });
+
+        // Move reticle upon locked pointer move
+        this.input.on('pointermove', function (pointer) {
+            if (this.input.mouse.locked)
+            {
+                this.reticle.x += pointer.movementX;
+                this.reticle.y += pointer.movementY;
+            }
+        }, this);
 
         // // Set Music Settings 
         // var musicConfig = {
@@ -163,9 +216,8 @@ class Level0 extends Phaser.Scene {
         window.scene = this; // testing purposes
         
         // Camera
-        this.cameras.main.setBounds(0,0,2000,2000);
+        this.cameras.main.setBounds(0,0,1600,1600);
         this.cameras.main.startFollow(this.player);
-            
 
         // Update Movement
         if (this.key_left.isDown) { //  Move Left
@@ -186,62 +238,61 @@ class Level0 extends Phaser.Scene {
             this.player.body.velocity.y = 0; 
         }
 
-        // Update Character
+        // Update Character & GUI
         if (this.key_1.isDown) { // sky
             this.player.texture = 'sky';
             this.player.data = dat.sky;
             this.player.play("sky_anim");
+            this.character_button.setTexture('button-1');
         } else if (this.key_2.isDown) { // blue
             this.player.texture = 'blue';
             this.player.play("blue_anim");
+            this.character_button.setTexture('button-2');
         } else if (this.key_3.isDown) { // cupcake
             this.player.texture = 'cupcake'; 
             this.player.play("cupcake_anim");
-        } else if (this.key_4.isDown) { // cupcake
-            this.player.texture = 'cupcake'; 
+            this.character_button.setTexture('button-3');
+        } else if (this.key_4.isDown) { // green
+            this.player.texture = 'green'; 
             this.player.play("green_anim");
-        } else if (this.key_5.isDown) { // cupcake
-            this.player.texture = 'cupcake'; 
+            this.character_button.setTexture('button-4');
+        } else if (this.key_5.isDown) { // red
+            this.player.texture = 'red'; 
             this.player.play("red_anim");
-            console.log("hi");
+            this.character_button.setTexture('button-5');
         }
 
-        // Shoot
-        if (this.key_space.isDown) {
-            if (this.key_left.isDown)
-                this.shootBeam('L');
-            if (this.key_right.isDown)
-                this.shootBeam('R');
-            if (this.key_up.isDown)
-                this.shootBeam('U');
-            if (this.key_down.isDown || !this.key_up.isDown) {
-                this.shootBeam('D');
-            }
-        }
+        // Rotates player to face towards reticle
+        this.player.rotation = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.reticle.x, this.reticle.y);
 
+        // Make reticle move with player
+        this.reticle.body.velocity.x = this.player.body.velocity.x;
+        this.reticle.body.velocity.y = this.player.body.velocity.y;
+
+        // Make buttons move with player
+        this.character_button.body.velocity.x = this.player.body.velocity.x;
+        this.character_button.body.velocity.y = this.player.body.velocity.y;
+        this.special_button.body.velocity.x = this.player.body.velocity.x;
+        this.special_button.body.velocity.y = this.player.body.velocity.y;
         
+
+        // Constrain position of constrainReticle
+        this.constrainReticle(this.reticle);
     }
 
-    shootBeam(letter) {
-        var beam = new Beam(this);
-        switch(letter) {
-            case 'L': // left
-                // beam.body.velocity.x = -500;
-                // beam.body.velocity.y = 0;
-                beam.rotation = 90;
-            case 'R': // right
-                beam.body.velocity.x = 500;
-                beam.body.velocity.y = 0;
-            case 'U': // up
-                beam.body.velocity.x = 0;
-                beam.body.velocity.y = -500;
-            case 'D': // down
-                beam.body.velocity.x = 0;    
-                beam.body.velocity.y = 500;
-            default:
-                beam.body.velocity.x = 0;
-                beam.body.velocity.y = -500;
-                console.log(beam);
-        }
+    constrainReticle (reticle) {
+        var distX = reticle.x-this.player.x; // X distance between player & reticle
+        var distY = reticle.y-this.player.y; // Y distance between player & reticle
+
+        // Ensures reticle cannot be moved offscreen (player follow)
+        if (distX > 800)
+            reticle.x = this.player.x+800;
+        else if (distX < -800)
+            reticle.x = this.player.x-800;
+
+        if (distY > 600)
+            reticle.y = this.player.y+600;
+        else if (distY < -600)
+            reticle.y = this.player.y-600;
     }
 }
