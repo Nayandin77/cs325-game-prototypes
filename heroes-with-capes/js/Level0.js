@@ -102,58 +102,6 @@ class Level0 extends Phaser.Scene {
         this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
         this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
 
-    
-        /* ANIMATION ..................................................... 
-        // this.anims.create({ // sky's animation
-        //     key: "sky_anim",
-        //     frames: this.anims.generateFrameNumbers("sky"),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "blue_anim",
-        //     frames: this.anims.generateFrameNumbers("blue"),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({ // sky's animation
-        //     key: "red_anim",
-        //     frames: this.anims.generateFrameNumbers("red"),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "green_anim",
-        //     frames: this.anims.generateFrameNumbers("green"),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "cupcake_anim", // _idle
-        //     frames: [{ key: "cupcake", frame: 3 }],
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "cupcake_left",
-        //     frames: this.anims.generateFrameNumbers("cupcake", { start: 0, end: 3}),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "cupcake_right",
-        //     frames: this.anims.generateFrameNumbers("cupcake", { start: 4, end: 7}),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        // this.anims.create({
-        //     key: "beam_anim",
-        //     frames: this.anims.generateFrameNumbers("beam"),
-        //     frameRate: 20,
-        //     repeat: -1
-        // });
-        */
-
 
         /* CONTROLS ..................................................... */
 
