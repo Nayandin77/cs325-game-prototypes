@@ -1,12 +1,39 @@
 var dat = {
   sky: {
-    "movement": 500,
+    "movement": 200,
     "q": "grenade",
-    "e": "kill-all",
+    "e": "throw-saber",
     "ammo": 30,
-    "animations": "",
     "bullet_speed": 400,
-  }
+  },
+  blue: {
+    "movement": 150,
+    "q": "",
+    "e": "",
+    "ammo": 15,
+    "bullet_speed": 500,
+  },
+  cupcake: {
+    "movement": 120,
+    "q": "",
+    "e": "",
+    "ammo": 15,
+    "bullet_speed": 500,
+  },
+  green: {
+    "movement": 130,
+    "q": "",
+    "e": "",
+    "ammo": 15,
+    "bullet_speed": 500,
+  },
+  red: {
+    "movement": 175,
+    "q": "",
+    "e": "",
+    "ammo": 15,
+    "bullet_speed": 500,
+  },
 }
 
 var config = {

@@ -197,18 +197,18 @@ class Level0 extends Phaser.Scene {
 
         // Update Movement
         if (this.key_left.isDown) { //  Move Left
-            this.player.body.velocity.x = -200;
+            this.player.body.velocity.x = this.player.data.movement * -1;
             this.player.body.velocity.y = 0;
         } else if (this.key_right.isDown) { //  Move Right
-            this.player.body.velocity.x = 200;
+            this.player.body.velocity.x = this.player.data.movement;
             this.player.body.velocity.y = 0; 
             // player.animations.play('right');
         } else if (this.key_up.isDown) { //  Move  Up
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = -200;
+            this.player.body.velocity.y = this.player.data.movement * -1;
         } else if (this.key_down.isDown) { //  Move Down
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = 200; 
+            this.player.body.velocity.y = this.player.data.movement; 
         } else { //  Stand still
             this.player.body.velocity.x = 0; 
             this.player.body.velocity.y = 0; 
@@ -216,20 +216,24 @@ class Level0 extends Phaser.Scene {
 
         // Update Character & GUI
         if (this.key_1.isDown) { // sky
-            this.player.data = dat.sky;
             this.player.setTexture('sky');
+            this.player.data = dat.sky;
             this.character_button.setTexture('button-1');
         } else if (this.key_2.isDown) { // blue
             this.player.setTexture('blue');
+            this.player.data = dat.blue;
             this.character_button.setTexture('button-2');
         } else if (this.key_3.isDown) { // cupcake
             this.player.setTexture('cupcake');
+            this.player.data = dat.cupcake;
             this.character_button.setTexture('button-3');
         } else if (this.key_4.isDown) { // green
             this.player.setTexture('green'); 
+            this.player.data = dat.green;
             this.character_button.setTexture('button-4');
         } else if (this.key_5.isDown) { // red
             this.player.setTexture('red'); 
+            this.player.data = dat.red;
             this.character_button.setTexture('button-5');
         }
 
