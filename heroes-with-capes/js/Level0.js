@@ -7,8 +7,9 @@ class Level0 extends Phaser.Scene {
         this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
         this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
-        this.load.image('bullet', 'assets/spritesheets/bullets/bullet6.png');
-        this.load.image('target', 'assets/spritesheets/reticle.png');
+        this.load.image("bullet", "./assets/spritesheets/bullets/bullet-sky.png"); // default is sky's bullet
+        this.load.image("bullet-1", "./assets/spritesheets/bullets/bullet1.png"); 
+        this.load.image('target', './assets/spritesheets/reticle.png');
 
         // GUI Preload
         this.load.image("gui-background", "./assets/gui/no_white/gui_background.png");
@@ -26,25 +27,25 @@ class Level0 extends Phaser.Scene {
         //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
         //     "./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).mp3"]);
 
-        this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{
+        this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
             frameWidth: 66,
             frameHeight: 60
         });
-        this.load.spritesheet("blue", "./assets/spritesheets/blue_temp.png",{
-            frameWidth: 30,
-            frameHeight: 47
-        });
-        this.load.spritesheet("cupcake", "./assets/spritesheets/characters/cupcake.png",{
-            frameWidth: 28,
-            frameHeight: 48
-        });
-        this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{
+        this.load.spritesheet("blue", "./assets/spritesheets/characters/blue.png",{ // blue
             frameWidth: 66,
             frameHeight: 60
         });
-        this.load.spritesheet("green", "./assets/spritesheets/green_temp.png",{
-            frameWidth: 30,
-            frameHeight: 47
+        this.load.spritesheet("cupcake", "./assets/spritesheets/characters/cupcake.png",{ // cupcake
+            frameWidth: 66,
+            frameHeight: 60
+        });
+        this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{ // red
+            frameWidth: 66,
+            frameHeight: 60
+        });
+        this.load.spritesheet("green", "./assets/spritesheets/characters/green.png",{ // green
+            frameWidth: 66,
+            frameHeight: 60
         });
 
         // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
@@ -69,8 +70,8 @@ class Level0 extends Phaser.Scene {
         // border.body.immovable = true;
 
         /* Player Configuration */
-        this.player = this.physics.add.sprite(800, 800, 'sky'); //default character loads 'sky'
-        this.player.data = dat.sky;
+        this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
+        this.player.data = dat.sky; // loads sky's data
         this.player.enableBody();
         // this.player.play("sky_anim");
         // this.player.setCollideWorldBounds(true, 2000, 2000);
@@ -90,7 +91,7 @@ class Level0 extends Phaser.Scene {
         this.gui_top_bar.closePath();
         this.gui_top_bar.fillPath();
         // level name text
-        this.levelText = this.add.bitmapText(config.width / 2 - 150, 8, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
+        this.levelText = this.add.bitmapText(config.width / 2 - 150, 6, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
         // time & score for debate
 
         //// bottom bar
@@ -125,9 +126,8 @@ class Level0 extends Phaser.Scene {
         // Reload Key
         this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        // Shoot Key
-        // this.key_space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        // Add 2 groups for Bullet objects
+        // Shooting Logic
+        // Add 2 groups for Bullet objects, player / enemy
         this.playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.reticle = this.physics.add.sprite(800, 700, 'target');
         this.hp1 = this.add.image(-350, -250, 'target').setScrollFactor(0.5, 0.5);
@@ -152,6 +152,7 @@ class Level0 extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.player, this.reticle);
+                bullet.setBullet('bullet-1');
                 // this.physics.add.collider(enemy, bullet, enemyHitCallback);
             }
         }, this);
@@ -219,13 +220,13 @@ class Level0 extends Phaser.Scene {
             this.player.setTexture('sky');
             this.character_button.setTexture('button-1');
         } else if (this.key_2.isDown) { // blue
-            // this.player.texture = 'blue';
+            this.player.setTexture('blue');
             this.character_button.setTexture('button-2');
         } else if (this.key_3.isDown) { // cupcake
             this.player.setTexture('cupcake');
             this.character_button.setTexture('button-3');
         } else if (this.key_4.isDown) { // green
-            // this.player.texture = 'green'; 
+            this.player.setTexture('green'); 
             this.character_button.setTexture('button-4');
         } else if (this.key_5.isDown) { // red
             this.player.setTexture('red'); 

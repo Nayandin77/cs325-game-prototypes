@@ -1,12 +1,16 @@
 class Bullet extends Phaser.GameObjects.Image {
     constructor(scene) {
-        super(scene, 0, 0, 'bullet')
+        super(scene, 0, 0, 'bullet');
         this.speed = 1;
         this.born = 0;
         this.direction = 0;
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.setSize(12, 12, true);
+    }
+
+    setBullet(string) {
+        console.log(this.Image);
     }
 
     fire (shooter, target) {
