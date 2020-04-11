@@ -25,9 +25,9 @@ class Level0 extends Phaser.Scene {
         //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
         //     "./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).mp3"]);
 
-        this.load.spritesheet("sky", "./assets/spritesheets/sky.png",{
-            frameWidth: 30,
-            frameHeight: 47
+        this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{
+            frameWidth: 66,
+            frameHeight: 60
         });
         this.load.spritesheet("blue", "./assets/spritesheets/blue_temp.png",{
             frameWidth: 30,
@@ -37,9 +37,9 @@ class Level0 extends Phaser.Scene {
             frameWidth: 28,
             frameHeight: 48
         });
-        this.load.spritesheet("red", "./assets/spritesheets/red_temp.png",{
-            frameWidth: 30,
-            frameHeight: 47
+        this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{
+            frameWidth: 66,
+            frameHeight: 60
         });
         this.load.spritesheet("green", "./assets/spritesheets/green_temp.png",{
             frameWidth: 30,
@@ -54,7 +54,7 @@ class Level0 extends Phaser.Scene {
 
     create() {
         
-        /* MAP DESIGN */
+        /* MAP DESIGN ..................................................... */
 
         // Background
         this.background = this.add.tileSprite(0, 0, 1600, 1600, "LEVEL_0");
@@ -67,41 +67,60 @@ class Level0 extends Phaser.Scene {
         
         // border.body.immovable = true;
 
-        /* GUI DESIGN */
-        this.character_button = this.physics.add.sprite(800, 1050, 'button-1').setScale(.75,.75);
-        this.special_button = this.physics.add.sprite(1100, 950, 'Q1E1').setScale(.75,.75);
+        /* GUI DESIGN ..................................................... */
+        // top bar
+        this.gui_top_bar = this.add.graphics();
+        this.gui_top_bar.setScrollFactor(0);
+        this.gui_top_bar.fillStyle(0x000000, 1); // hex, alpha
+        this.gui_top_bar.beginPath();
+        this.gui_top_bar.moveTo(0, 0);
+        this.gui_top_bar.lineTo(0, 0);
+        this.gui_top_bar.lineTo(config.width, 0);
+        this.gui_top_bar.lineTo(config.width, 30);
+        this.gui_top_bar.lineTo(0, 30);
+        this.gui_top_bar.closePath();
+        this.gui_top_bar.fillPath();
 
-        /* ANIMATION */
-        this.anims.create({ // sky's animation
-            key: "sky_anim",
-            frames: this.anims.generateFrameNumbers("sky"),
-            frameRate: 20,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "blue_anim",
-            frames: this.anims.generateFrameNumbers("blue"),
-            frameRate: 20,
-            repeat: -1
-        });
-        this.anims.create({ // sky's animation
-            key: "red_anim",
-            frames: this.anims.generateFrameNumbers("red"),
-            frameRate: 20,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "green_anim",
-            frames: this.anims.generateFrameNumbers("green"),
-            frameRate: 20,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "cupcake_anim", // _idle
-            frames: [{ key: "cupcake", frame: 3 }],
-            frameRate: 20,
-            repeat: -1
-        });
+        // level name text
+        // time & score for debate
+
+        /// 
+        this.character_button = this.physics.add.sprite(400, 550, 'button-1').setScale(.6,.6).setScrollFactor(0);
+        this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0);
+        // ammo area
+        
+
+        /* ANIMATION ..................................................... */
+        // this.anims.create({ // sky's animation
+        //     key: "sky_anim",
+        //     frames: this.anims.generateFrameNumbers("sky"),
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
+        // this.anims.create({
+        //     key: "blue_anim",
+        //     frames: this.anims.generateFrameNumbers("blue"),
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
+        // this.anims.create({ // sky's animation
+        //     key: "red_anim",
+        //     frames: this.anims.generateFrameNumbers("red"),
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
+        // this.anims.create({
+        //     key: "green_anim",
+        //     frames: this.anims.generateFrameNumbers("green"),
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
+        // this.anims.create({
+        //     key: "cupcake_anim", // _idle
+        //     frames: [{ key: "cupcake", frame: 3 }],
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
         // this.anims.create({
         //     key: "cupcake_left",
         //     frames: this.anims.generateFrameNumbers("cupcake", { start: 0, end: 3}),
@@ -114,21 +133,21 @@ class Level0 extends Phaser.Scene {
         //     frameRate: 20,
         //     repeat: -1
         // });
-        this.anims.create({
-            key: "beam_anim",
-            frames: this.anims.generateFrameNumbers("beam"),
-            frameRate: 20,
-            repeat: -1
-        });
+        // this.anims.create({
+        //     key: "beam_anim",
+        //     frames: this.anims.generateFrameNumbers("beam"),
+        //     frameRate: 20,
+        //     repeat: -1
+        // });
 
         this.player = this.physics.add.sprite(800, 800, 'sky'); //default character loads 'sky'
         this.player.data = dat.sky;
-        this.player.play("sky_anim");
+        // this.player.play("sky_anim");
         this.player.enableBody();
         // this.player.setCollideWorldBounds(true, 2000, 2000);
 
 
-        /* CONTROLS */
+        /* CONTROLS ..................................................... */
 
         // Movement Controls
         this.key_left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -196,7 +215,7 @@ class Level0 extends Phaser.Scene {
             }
         }, this);
 
-        // // Set Music Settings 
+        /* Music Config ..................................................... */
         // var musicConfig = {
         //     mute: false,
         //     volume: 0.5,
@@ -241,24 +260,25 @@ class Level0 extends Phaser.Scene {
         // Update Character & GUI
         if (this.key_1.isDown) { // sky
             this.player.texture = 'sky';
+            this.player.setTexture('sky');
             this.player.data = dat.sky;
-            this.player.play("sky_anim");
+            // this.player.play("sky_anim");
             this.character_button.setTexture('button-1');
         } else if (this.key_2.isDown) { // blue
-            this.player.texture = 'blue';
-            this.player.play("blue_anim");
+            // this.player.texture = 'blue';
+            // this.player.play("blue_anim");
             this.character_button.setTexture('button-2');
         } else if (this.key_3.isDown) { // cupcake
-            this.player.texture = 'cupcake'; 
-            this.player.play("cupcake_anim");
+            // this.player.texture = 'cupcake'; 
+            // this.player.play("cupcake_anim");
             this.character_button.setTexture('button-3');
         } else if (this.key_4.isDown) { // green
-            this.player.texture = 'green'; 
-            this.player.play("green_anim");
+            // this.player.texture = 'green'; 
+            // this.player.play("green_anim");
             this.character_button.setTexture('button-4');
         } else if (this.key_5.isDown) { // red
-            this.player.texture = 'red'; 
-            this.player.play("red_anim");
+            this.player.setTexture('red'); 
+            // this.player.play("red_anim");
             this.character_button.setTexture('button-5');
         }
 
@@ -268,14 +288,7 @@ class Level0 extends Phaser.Scene {
         // Make reticle move with player
         this.reticle.body.velocity.x = this.player.body.velocity.x;
         this.reticle.body.velocity.y = this.player.body.velocity.y;
-
-        // Make buttons move with player
-        this.character_button.body.velocity.x = this.player.body.velocity.x;
-        this.character_button.body.velocity.y = this.player.body.velocity.y;
-        this.special_button.body.velocity.x = this.player.body.velocity.x;
-        this.special_button.body.velocity.y = this.player.body.velocity.y;
         
-
         // Constrain position of constrainReticle
         this.constrainReticle(this.reticle);
     }
