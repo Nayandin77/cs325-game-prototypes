@@ -11,6 +11,7 @@ class Level0 extends Phaser.Scene {
         this.load.image('target', 'assets/spritesheets/reticle.png');
 
         // GUI Preload
+        this.load.image("gui-background", "./assets/gui/no_white/gui_background.png");
         this.load.image("button-1", "./assets/gui/no_white/character_button_1.png");
         this.load.image("button-2", "./assets/gui/no_white/character_button_2.png");
         this.load.image("button-3", "./assets/gui/no_white/character_button_3.png");
@@ -46,10 +47,10 @@ class Level0 extends Phaser.Scene {
             frameHeight: 47
         });
 
-        this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{
-            frameWidth: 16,
-            frameHeight: 16
-        });
+        // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
+        //     frameWidth: 16,
+        //     frameHeight: 16
+        // });
     }
 
     create() {
@@ -66,6 +67,13 @@ class Level0 extends Phaser.Scene {
         // walls.immovable = true;
         
         // border.body.immovable = true;
+
+        /* Player Configuration */
+        this.player = this.physics.add.sprite(800, 800, 'sky'); //default character loads 'sky'
+        this.player.data = dat.sky;
+        this.player.enableBody();
+        // this.player.play("sky_anim");
+        // this.player.setCollideWorldBounds(true, 2000, 2000);
 
         /* GUI DESIGN ..................................................... */
         // top bar
@@ -84,13 +92,18 @@ class Level0 extends Phaser.Scene {
         // level name text
         // time & score for debate
 
-        /// 
-        this.character_button = this.physics.add.sprite(400, 550, 'button-1').setScale(.6,.6).setScrollFactor(0);
-        this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0);
-        // ammo area
+        // bottom bar
+        this.gui_background = this.physics.add.sprite(400, 300, 'gui-background').setScale(.5,.5).setScrollFactor(0); // bottom bar background
+        this.character_button = this.physics.add.sprite(400, 550, 'button-1').setScale(.6,.6).setScrollFactor(0); // 1-5 buttons
+        this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0); // q,e buttons
+        // Ammo Text
+        this.ammoCapacity = this.player.data.ammo;
+        this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down ./ this.ammo--;
+        this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
+
         
 
-        /* ANIMATION ..................................................... */
+        /* ANIMATION ..................................................... 
         // this.anims.create({ // sky's animation
         //     key: "sky_anim",
         //     frames: this.anims.generateFrameNumbers("sky"),
@@ -139,12 +152,7 @@ class Level0 extends Phaser.Scene {
         //     frameRate: 20,
         //     repeat: -1
         // });
-
-        this.player = this.physics.add.sprite(800, 800, 'sky'); //default character loads 'sky'
-        this.player.data = dat.sky;
-        // this.player.play("sky_anim");
-        this.player.enableBody();
-        // this.player.setCollideWorldBounds(true, 2000, 2000);
+        */
 
 
         /* CONTROLS ..................................................... */
