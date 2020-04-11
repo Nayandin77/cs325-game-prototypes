@@ -76,7 +76,8 @@ class Level0 extends Phaser.Scene {
         // this.player.setCollideWorldBounds(true, 2000, 2000);
 
         /* GUI DESIGN ..................................................... */
-        // top bar
+        
+        //// top bar
         this.gui_top_bar = this.add.graphics();
         this.gui_top_bar.setScrollFactor(0);
         this.gui_top_bar.fillStyle(0x000000, 1); // hex, alpha
@@ -88,21 +89,20 @@ class Level0 extends Phaser.Scene {
         this.gui_top_bar.lineTo(0, 30);
         this.gui_top_bar.closePath();
         this.gui_top_bar.fillPath();
-
         // level name text
+        this.levelText = this.add.bitmapText(config.width / 2 - 150, 8, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
         // time & score for debate
 
-        // bottom bar
+        //// bottom bar
         this.gui_background = this.physics.add.sprite(400, 300, 'gui-background').setScale(.5,.5).setScrollFactor(0); // bottom bar background
         this.character_button = this.physics.add.sprite(400, 550, 'button-1').setScale(.6,.6).setScrollFactor(0); // 1-5 buttons
         this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0); // q,e buttons
         // Ammo Text
         this.ammoCapacity = this.player.data.ammo;
-        this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down ./ this.ammo--;
+        this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
         this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
 
-        
-
+    
         /* ANIMATION ..................................................... 
         // this.anims.create({ // sky's animation
         //     key: "sky_anim",

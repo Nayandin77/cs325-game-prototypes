@@ -1,5 +1,4 @@
-body
-{
+body {
     color: #ffffff;
     font-family: "Avenir", Verdana, sans-serif;
     border-top: 2vw solid #000;
@@ -11,10 +10,9 @@ body
     margin: auto;
 }
 
-#readme
-{
+#readme {
     margin-top: 10px;
-    padding: 0 18vw;
+    padding: 0 12vw;
 }
 
 .button {
