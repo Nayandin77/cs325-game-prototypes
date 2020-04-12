@@ -101,7 +101,9 @@ class Level0 extends Phaser.Scene {
 
         /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
-        this.player.data = dat.sky; // loads sky's data
+        this.player.data = dat.sky; // loads sky's data old
+        // this.player.setData('data', dat.sky); // loads sky's data
+        // this.player.setData('name', dat.sky.name); // loads sky's data
         this.player.health = dat.player.health;
         this.player.enableBody();
         this.player.setCollideWorldBounds(true);
@@ -184,6 +186,7 @@ class Level0 extends Phaser.Scene {
 
         // Reload Key
         this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
 
         /* Logic */
 
@@ -319,6 +322,15 @@ class Level0 extends Phaser.Scene {
         this.enemyFire(this.enemy_human, this.player, dat.enemy_human.time, this, this.enemy_human.data.bullet);
         this.enemyFire(this.enemy_robot, this.player, dat.enemy_robot.time, this, this.enemy_robot.data.bullet);
         this.enemyFire(this.enemy_alien, this.player, dat.enemy_alien.time, this, this.enemy_alien.data.bullet);
+
+        // Check Health
+        if (this.player.health <= 0) {
+            // game.scene.stop("Level0");
+            // this.scene.stop();
+            // console.log(this.player.health);
+            this.scene.start("EndScreen"); // fix this
+        }
+
     }
 
     constrainReticle (reticle) {
