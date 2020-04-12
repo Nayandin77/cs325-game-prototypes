@@ -10,17 +10,20 @@ class Level0 extends Phaser.Scene {
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
 
         /* GUI ..................................................... */
-        this.load.image("gui-background", "./assets/gui/no_white/gui_background.png");
-        this.load.image("button-1", "./assets/gui/no_white/character_button_1.png");
-        this.load.image("button-2", "./assets/gui/no_white/character_button_2.png");
-        this.load.image("button-3", "./assets/gui/no_white/character_button_3.png");
-        this.load.image("button-4", "./assets/gui/no_white/character_button_4.png");
-        this.load.image("button-5", "./assets/gui/no_white/character_button_5.png");
-        this.load.image("Q0E0", "./assets/gui/no_white/Q_0_E_0.png");
-        this.load.image("Q1E0", "./assets/gui/no_white/Q_1_E_0.png");
-        this.load.image("Q0E1", "./assets/gui/no_white/Q_0_E_1.png");
-        this.load.image("Q1E1", "./assets/gui/no_white/Q_1_E_1.png");
-        this.load.image('target', './assets/spritesheets/reticle.png');
+        this.load.image("gui-background", "./assets/gui/gui_background.png");
+        this.load.image("button-1", "./assets/gui/character_button_1.png");
+        this.load.image("button-2", "./assets/gui/character_button_2.png");
+        this.load.image("button-3", "./assets/gui/character_button_3.png");
+        this.load.image("button-4", "./assets/gui/character_button_4.png");
+        this.load.image("button-5", "./assets/gui/character_button_5.png");
+        this.load.image("Q0E0", "./assets/gui/Q_0_E_0.png");
+        this.load.image("Q1E0", "./assets/gui/Q_1_E_0.png");
+        this.load.image("Q0E1", "./assets/gui/Q_0_E_1.png");
+        this.load.image("Q1E1", "./assets/gui/Q_1_E_1.png");
+        this.load.image("target", "./assets/gui/reticle.png");
+
+        /* Health Points */
+        this.load.image("hp", "./assets/gui/hp.png")
 
         /* Playable Characters Sprites & Player Bullets ..................................................... */
         this.load.image("bullet-sky", "./assets/spritesheets/bullets/bullet-sky.png"); // sky's bullet
@@ -149,6 +152,16 @@ class Level0 extends Phaser.Scene {
         this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
         this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
 
+        // Health Points
+        this.player.hp1 = this.add.image(30, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
+        this.player.hp2 = this.add.image(61, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
+        this.player.hp3 = this.add.image(92, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
+        this.player.hp4 = this.add.image(123, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
+        this.player.hp5 = this.add.image(154, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
+
+        // Player Name
+        this.playerName = this.add.bitmapText(50, 510, "pixelFont", "Sky", 28).setScrollFactor(0);
+
 
         /* CONTROLS ..................................................... */
 
@@ -172,19 +185,16 @@ class Level0 extends Phaser.Scene {
         // Reload Key
         this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+        /* Logic */
+
         // Shooting Logic
         // Add 2 groups for Bullet objects, player / enemy
         this.playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.enemyBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.reticle = this.physics.add.sprite(800, 700, 'target');
-        this.hp1 = this.add.image(-350, -250, 'target').setScrollFactor(0.5, 0.5);
-        this.hp2 = this.add.image(-300, -250, 'target').setScrollFactor(0.5, 0.5);
-        this.hp3 = this.add.image(-250, -250, 'target').setScrollFactor(0.5, 0.5);
-
+        
+        // Reticle 
         this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25);
-        this.hp1.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
-        this.hp2.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
-        this.hp3.setOrigin(0.5, 0.5).setDisplaySize(50, 50);
 
         // Set camera properties
         this.cameras.main.startFollow(this.player);
@@ -282,6 +292,7 @@ class Level0 extends Phaser.Scene {
             this.ammoCapacity = this.player.data.ammo;
             this.ammo = this.ammoCapacity;
             this.ammoText.setText("Ammo: " + this.ammo + '/' + this.ammoCapacity);
+            this.playerName.setText(this.player.data.name);
         }
 
         /* Update Special Attacks ..................................................... */
@@ -326,7 +337,7 @@ class Level0 extends Phaser.Scene {
             reticle.y = this.player.y-600;
     }
 
-    // Reduce health of enemy
+    // Reduce health of enemy if shot
     enemyHitCallback(enemyHit, bulletHit) {
         if (bulletHit.active === true && enemyHit.active === true) {
             enemyHit.health = enemyHit.health - 1;
@@ -342,28 +353,35 @@ class Level0 extends Phaser.Scene {
         }
     }
 
-    // playerHitCallback(playerHit, bulletHit) {
-    //     // Reduce health of player
-    //     if (bulletHit.active === true && playerHit.active === true) {
-    //         playerHit.health = playerHit.health - 1;
-    //         console.log("Player hp: ", playerHit.health);
+    playerHitCallback(playerHit, bulletHit) {
+        // Reduce health of player
+        if (bulletHit.active === true && playerHit.active === true) {
+            playerHit.health = playerHit.health - 1;
+            console.log("Player hp: ", playerHit.health);
 
-    //         // Kill hp sprites and kill player if health <= 0
-    //         if (playerHit.health == 2) {
-    //             hp3.destroy();
-    //         }
-    //         else if (playerHit.health == 1) {
-    //             hp2.destroy();
-    //         }
-    //         else {
-    //             hp1.destroy();
-    //             // Game over state should execute here
-    //         }
-    //         // Destroy bullet
-    //         bulletHit.setActive(false).setVisible(false);
-    //     }
-    // }
+            // Kill hp sprites and kill player if health <= 0
+            if (playerHit.health == 4) {
+                playerHit.hp1.destroy();
+            }
+            else if (playerHit.health == 3) {
+                playerHit.hp2.destroy();
+            }
+            else if (playerHit.health == 2) {
+                playerHit.hp3.destroy();
+            }
+            else if (playerHit.health == 1) {
+                playerHit.hp4.destroy();
+            }
+            else {
+                playerHit.hp5.destroy();
+                // Game over state should execute here
+            }
+            // Destroy bullet
+            bulletHit.setActive(false).setVisible(false);
+        }
+    }
 
+    // Enemy Shooting
     enemyFire(enemy, player, time, gameObject, bullet_t) {
         enemy.lastFired -= 10; // reduces time from last shot
 

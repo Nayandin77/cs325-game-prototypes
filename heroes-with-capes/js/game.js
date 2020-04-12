@@ -21,6 +21,7 @@ var dat = {
     "bullet": 'enemy-alien-bullet',
   },
   sky: {
+    "name": 'Sky',
     "texture": 'sky',
     "bullet": 'bullet-sky',
     "gui": 'button-1',
@@ -31,6 +32,7 @@ var dat = {
     "bullet_speed": 400,
   },
   blue: {
+    "name": 'Blue',
     "texture": 'blue',
     "bullet": 'bullet-blue',
     "gui": 'button-2',
@@ -41,6 +43,7 @@ var dat = {
     "bullet_speed": 500,
   },
   cupcake: {
+    "name": 'Cupcake',
     "texture": 'cupcake',
     "bullet": 'bullet-cupcake',
     "gui": 'button-3',
@@ -51,6 +54,7 @@ var dat = {
     "bullet_speed": 500,
   },
   green: {
+    "name": 'Green',
     "texture": 'green',
     "bullet": 'bullet-green',
     "gui": 'button-4',
@@ -61,6 +65,7 @@ var dat = {
     "bullet_speed": 500,
   },
   red: {
+    "name": 'Red',
     "texture": 'red',
     "bullet": 'bullet-red',
     "gui": 'button-5',
