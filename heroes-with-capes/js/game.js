@@ -3,16 +3,26 @@ var dat = {
     "health": 5,
   },
   enemy_human: {
-    "health": 3
+    "health": 3,
+    "movement": 200,
+    "time": 1000,
+    "bullet": 'enemy-human-bullet',
   },
   enemy_robot: {
-    "health": 5
+    "health": 5,
+    "movement": 150,
+    "time": 1500,
+    "bullet": 'enemy-robot-bullet',
   },
   enemy_alien: {
-    "health": 4
+    "health": 4,
+    "movement": 250,
+    "time": 850,
+    "bullet": 'enemy-alien-bullet',
   },
   sky: {
     "texture": 'sky',
+    "bullet": 'bullet-sky',
     "gui": 'button-1',
     "movement": 200,
     "q": "grenade",
@@ -22,6 +32,7 @@ var dat = {
   },
   blue: {
     "texture": 'blue',
+    "bullet": 'bullet-blue',
     "gui": 'button-2',
     "movement": 150,
     "q": "",
@@ -31,6 +42,7 @@ var dat = {
   },
   cupcake: {
     "texture": 'cupcake',
+    "bullet": 'bullet-cupcake',
     "gui": 'button-3',
     "movement": 120,
     "q": "",
@@ -40,6 +52,7 @@ var dat = {
   },
   green: {
     "texture": 'green',
+    "bullet": 'bullet-green',
     "gui": 'button-4',
     "movement": 130,
     "q": "",
@@ -49,6 +62,7 @@ var dat = {
   },
   red: {
     "texture": 'red',
+    "bullet": 'bullet-red',
     "gui": 'button-5',
     "movement": 175,
     "q": "",

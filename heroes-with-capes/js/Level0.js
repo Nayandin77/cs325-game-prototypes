@@ -4,12 +4,10 @@ class Level0 extends Phaser.Scene {
     }
     
     preload() {
+        /* Map ..................................................... */
         this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
         this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
-        this.load.image("bullet", "./assets/spritesheets/bullets/bullet-sky.png"); // default is sky's bullet
-        this.load.image("bullet-1", "./assets/spritesheets/bullets/bullet1.png"); 
-        this.load.image('target', './assets/spritesheets/reticle.png');
 
         /* GUI ..................................................... */
         this.load.image("gui-background", "./assets/gui/no_white/gui_background.png");
@@ -22,42 +20,51 @@ class Level0 extends Phaser.Scene {
         this.load.image("Q1E0", "./assets/gui/no_white/Q_1_E_0.png");
         this.load.image("Q0E1", "./assets/gui/no_white/Q_0_E_1.png");
         this.load.image("Q1E1", "./assets/gui/no_white/Q_1_E_1.png");
+        this.load.image('target', './assets/spritesheets/reticle.png');
 
-        /* Playable Characters Sprites ..................................................... */
+        /* Playable Characters Sprites & Player Bullets ..................................................... */
+        this.load.image("bullet-sky", "./assets/spritesheets/bullets/bullet-sky.png"); // sky's bullet
         this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
             frameWidth: 66,
             frameHeight: 60
         });
+        this.load.image("bullet-blue", "./assets/spritesheets/bullets/bullet-blue.png"); // blue's bullet
         this.load.spritesheet("blue", "./assets/spritesheets/characters/blue.png",{ // blue
             frameWidth: 66,
             frameHeight: 60
         });
+        this.load.image("bullet-cupcake", "./assets/spritesheets/bullets/bullet-cupcake.png"); // cupcake's bullet
         this.load.spritesheet("cupcake", "./assets/spritesheets/characters/cupcake.png",{ // cupcake
             frameWidth: 66,
             frameHeight: 60
         });
+        this.load.image("bullet-red", "./assets/spritesheets/bullets/bullet-red.png"); // red's bullet
         this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{ // red
             frameWidth: 66,
             frameHeight: 60
         });
+        this.load.image("bullet-green", "./assets/spritesheets/bullets/bullet-green.png"); // green's bullet
         this.load.spritesheet("green", "./assets/spritesheets/characters/green.png",{ // green
             frameWidth: 66,
             frameHeight: 60
         });
 
-        /* Enemy Sprites  ..................................................... */
-        this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // green
+        /* Enemy Sprites & Enemy Bullets ..................................................... */
+        this.load.image("enemy-human-bullet", "./assets/spritesheets/bullets/enemy-human-bullet.png"); // human's bullet
+        this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // human
             frameWidth: 66,
             frameHeight: 60
         });
-        this.load.spritesheet("robot", "./assets/spritesheets/characters/robot.png",{ // green
+        this.load.image("enemy-robot-bullet", "./assets/spritesheets/bullets/enemy-robot-bullet.png"); // robot's bullet
+        this.load.spritesheet("robot", "./assets/spritesheets/characters/robot.png",{ // robot
             frameWidth: 971,
             frameHeight: 823
         });
-        this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // green
+        this.load.image("enemy-alien-bullet", "./assets/spritesheets/bullets/enemy-alien-bullet.png"); // alien's bullet
+        this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // alien
             frameWidth: 122,
             frameHeight: 177
-        });
+        }); 
 
         // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
         //     frameWidth: 16,
@@ -92,21 +99,24 @@ class Level0 extends Phaser.Scene {
         /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
         this.player.data = dat.sky; // loads sky's data
-        this.player.health = 5;
+        this.player.health = dat.player.health;
         this.player.enableBody();
         this.player.setCollideWorldBounds(true);
 
         /* Enemy Configuration */
         this.enemy_human = this.physics.add.sprite(300, 600, 'human').setCollideWorldBounds(true);
-        this.enemy_human.health = dat.enemy_human.health;
+        this.enemy_human.data = dat.enemy_human;
+        this.enemy_human.health = this.enemy_human.data.health;
         this.enemy_human.lastFired = 0;
 
         this.enemy_robot = this.physics.add.sprite(300, 700, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        this.enemy_robot.health = dat.enemy_robot.health;
+        this.enemy_robot.data = dat.enemy_robot;
+        this.enemy_robot.health = this.enemy_robot.data.health;
         this.enemy_robot.lastFired = 0;
 
         this.enemy_alien = this.physics.add.sprite(300, 800, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
-        this.enemy_alien.health = dat.enemy_alien.health;
+        this.enemy_alien.data = dat.enemy_alien;
+        this.enemy_alien.health = this.enemy_alien.data.health;
         this.enemy_alien.lastFired = 0;
         
 
@@ -185,9 +195,10 @@ class Level0 extends Phaser.Scene {
                 return;
 
             // Get bullet from bullets group
-            var bullet = this.playerBullets.get().setActive(true).setVisible(true);
+            var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.data.bullet);
 
             if (bullet) {
+                // console.log(bullet);
                 bullet.fire(this.player, this.reticle);
                 this.physics.add.collider(this.enemy_human, bullet, this.enemyHitCallback);
                 this.physics.add.collider(this.enemy_robot, bullet, this.enemyHitCallback);
@@ -230,7 +241,6 @@ class Level0 extends Phaser.Scene {
 
     update(time) {
         window.scene = this; // testing purposes
-        // this.time  100;
         
         /* Camera ..................................................... */
         this.cameras.main.setBounds(0,0,1600,1600);
@@ -256,7 +266,6 @@ class Level0 extends Phaser.Scene {
         }
 
         /* Update Character & GUI ..................................................... */
-
         if (this.key_1.isDown) { // sky
             this.player.data = dat.sky;
         } else if (this.key_2.isDown) { // blue
@@ -296,7 +305,9 @@ class Level0 extends Phaser.Scene {
         this.constrainReticle(this.reticle);
 
         // Make enemy fire
-        this.enemyFire(this.enemy_human, this.player, this.time, this);
+        this.enemyFire(this.enemy_human, this.player, dat.enemy_human.time, this, this.enemy_human.data.bullet);
+        this.enemyFire(this.enemy_robot, this.player, dat.enemy_robot.time, this, this.enemy_robot.data.bullet);
+        this.enemyFire(this.enemy_alien, this.player, dat.enemy_alien.time, this, this.enemy_alien.data.bullet);
     }
 
     constrainReticle (reticle) {
@@ -353,16 +364,17 @@ class Level0 extends Phaser.Scene {
     //     }
     // }
 
-    enemyFire(enemy, player, time, gameObject) {
+    enemyFire(enemy, player, time, gameObject, bullet_t) {
         enemy.lastFired -= 10; // reduces time from last shot
 
+        // console.log(time, enemy.lastFired, time - enemy.lastFired);
         if (enemy.active === false) 
             return;
         if ((time - enemy.lastFired) >= 1000) {
             enemy.lastFired = time;
 
             // Get bullet from bullets group
-            var bullet = this.enemyBullets.get().setActive(true).setVisible(true);
+            var bullet = this.enemyBullets.get().setActive(true).setVisible(true).setTexture(bullet_t);
 
             if (bullet) {
                 bullet.fire(enemy, player);
