@@ -11,7 +11,7 @@ class Level0 extends Phaser.Scene {
         this.load.image("bullet-1", "./assets/spritesheets/bullets/bullet1.png"); 
         this.load.image('target', './assets/spritesheets/reticle.png');
 
-        // GUI Preload
+        /* GUI ..................................................... */
         this.load.image("gui-background", "./assets/gui/no_white/gui_background.png");
         this.load.image("button-1", "./assets/gui/no_white/character_button_1.png");
         this.load.image("button-2", "./assets/gui/no_white/character_button_2.png");
@@ -23,11 +23,7 @@ class Level0 extends Phaser.Scene {
         this.load.image("Q0E1", "./assets/gui/no_white/Q_0_E_1.png");
         this.load.image("Q1E1", "./assets/gui/no_white/Q_1_E_1.png");
 
-        // this.load.audio("start_screen_music", 
-        //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
-        //     "./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).mp3"]);
-
-        /* Loading Playable Characters Sprites */
+        /* Playable Characters Sprites ..................................................... */
         this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
             frameWidth: 66,
             frameHeight: 60
@@ -49,7 +45,7 @@ class Level0 extends Phaser.Scene {
             frameHeight: 60
         });
 
-        /* Loading Enemy Sprites */
+        /* Enemy Sprites  ..................................................... */
         this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // green
             frameWidth: 66,
             frameHeight: 60
@@ -59,14 +55,20 @@ class Level0 extends Phaser.Scene {
             frameHeight: 823
         });
         this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // green
-            frameWidth: 177,
-            frameHeight: 122
+            frameWidth: 122,
+            frameHeight: 177
         });
 
         // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
         //     frameWidth: 16,
         //     frameHeight: 16
         // });
+
+        /* Songs / Sounds ..................................................... */
+        // this.load.audio("start_screen_music", 
+        //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
+        //     "./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).mp3"]);
+
     }
 
     create() {
@@ -76,6 +78,9 @@ class Level0 extends Phaser.Scene {
         // Background
         this.background = this.add.tileSprite(0, 0, 1600, 1600, "LEVEL_0");
         this.background.setOrigin(0, 0);
+
+        // Set world bounds
+        this.physics.world.setBounds(0, 0, 1600, 1600);
 
         // // Obstacles  fix
         // var walls = this.add.group();
@@ -87,13 +92,27 @@ class Level0 extends Phaser.Scene {
         /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
         this.player.data = dat.sky; // loads sky's data
+        this.player.health = 5;
         this.player.enableBody();
-        // this.player.play("sky_anim");
-        // this.player.setCollideWorldBounds(true, 2000, 2000);
+        this.player.setCollideWorldBounds(true);
+
+        /* Enemy Configuration */
+        this.enemy_human = this.physics.add.sprite(300, 600, 'human').setCollideWorldBounds(true);
+        this.enemy_human.health = dat.enemy_human.health;
+        this.enemy_human.lastFired = 0;
+
+        this.enemy_robot = this.physics.add.sprite(300, 700, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
+        this.enemy_robot.health = dat.enemy_robot.health;
+        this.enemy_robot.lastFired = 0;
+
+        this.enemy_alien = this.physics.add.sprite(300, 800, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
+        this.enemy_alien.health = dat.enemy_alien.health;
+        this.enemy_alien.lastFired = 0;
+        
 
         /* GUI DESIGN ..................................................... */
 
-        //// top bar
+        //// Top Bar
         this.gui_top_bar = this.add.graphics();
         this.gui_top_bar.setScrollFactor(0);
         this.gui_top_bar.fillStyle(0x000000, 1); // hex, alpha
@@ -105,14 +124,16 @@ class Level0 extends Phaser.Scene {
         this.gui_top_bar.lineTo(0, 30);
         this.gui_top_bar.closePath();
         this.gui_top_bar.fillPath();
-        // level name text
-        this.levelText = this.add.bitmapText(config.width / 2 - 150, 6, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
-        // time & score for debate
 
-        //// bottom bar
+        // Level Name Text
+        this.levelText = this.add.bitmapText(config.width / 2 - 150, 6, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
+        // time & score up for debate
+
+        //// Bottom Bar
         this.gui_background = this.physics.add.sprite(400, 300, 'gui-background').setScale(.5,.5).setScrollFactor(0); // bottom bar background
         this.character_button = this.physics.add.sprite(400, 550, 'button-1').setScale(.6,.6).setScrollFactor(0); // 1-5 buttons
         this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0); // q,e buttons
+
         // Ammo Text
         this.ammoCapacity = this.player.data.ammo;
         this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
@@ -144,6 +165,7 @@ class Level0 extends Phaser.Scene {
         // Shooting Logic
         // Add 2 groups for Bullet objects, player / enemy
         this.playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
+        this.enemyBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.reticle = this.physics.add.sprite(800, 700, 'target');
         this.hp1 = this.add.image(-350, -250, 'target').setScrollFactor(0.5, 0.5);
         this.hp2 = this.add.image(-300, -250, 'target').setScrollFactor(0.5, 0.5);
@@ -167,8 +189,9 @@ class Level0 extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(this.player, this.reticle);
-                bullet.setBullet('bullet-1');
-                // this.physics.add.collider(enemy, bullet, enemyHitCallback);
+                this.physics.add.collider(this.enemy_human, bullet, this.enemyHitCallback);
+                this.physics.add.collider(this.enemy_robot, bullet, this.enemyHitCallback);
+                this.physics.add.collider(this.enemy_alien, bullet, this.enemyHitCallback);
             }
         }, this);
 
@@ -201,10 +224,13 @@ class Level0 extends Phaser.Scene {
         // // Music
         // this.SC_music = this.sound.add("start_screen_music");
         // this.SC_music.play(musicConfig);
+        this.time = 1000;
+
     }
 
-    update() {
+    update(time) {
         window.scene = this; // testing purposes
+        // this.time  100;
         
         /* Camera ..................................................... */
         this.cameras.main.setBounds(0,0,1600,1600);
@@ -257,12 +283,20 @@ class Level0 extends Phaser.Scene {
         // Rotates player to face towards reticle
         this.player.rotation = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.reticle.x, this.reticle.y);
 
+        // Rotates enemies to face towards player
+        this.enemy_human.rotation = Phaser.Math.Angle.Between(this.enemy_human.x, this.enemy_human.y, this.player.x, this.player.y);
+        this.enemy_robot.rotation = Phaser.Math.Angle.Between(this.enemy_robot.x, this.enemy_robot.y, this.player.x, this.player.y);
+        this.enemy_alien.rotation = Phaser.Math.Angle.Between(this.enemy_alien.x, this.enemy_alien.y, this.player.x, this.player.y);
+
         // Make reticle move with player
         this.reticle.body.velocity.x = this.player.body.velocity.x;
         this.reticle.body.velocity.y = this.player.body.velocity.y;
         
         // Constrain position of constrainReticle
         this.constrainReticle(this.reticle);
+
+        // Make enemy fire
+        this.enemyFire(this.enemy_human, this.player, this.time, this);
     }
 
     constrainReticle (reticle) {
@@ -280,4 +314,62 @@ class Level0 extends Phaser.Scene {
         else if (distY < -600)
             reticle.y = this.player.y-600;
     }
+
+    // Reduce health of enemy
+    enemyHitCallback(enemyHit, bulletHit) {
+        if (bulletHit.active === true && enemyHit.active === true) {
+            enemyHit.health = enemyHit.health - 1;
+            console.log("Enemy hp: ", enemyHit.health);
+
+            // Kill enemy if health <= 0
+            if (enemyHit.health <= 0) {
+            enemyHit.setActive(false).setVisible(false);
+            }
+
+            // Destroy bullet
+            bulletHit.setActive(false).setVisible(false);
+        }
+    }
+
+    // playerHitCallback(playerHit, bulletHit) {
+    //     // Reduce health of player
+    //     if (bulletHit.active === true && playerHit.active === true) {
+    //         playerHit.health = playerHit.health - 1;
+    //         console.log("Player hp: ", playerHit.health);
+
+    //         // Kill hp sprites and kill player if health <= 0
+    //         if (playerHit.health == 2) {
+    //             hp3.destroy();
+    //         }
+    //         else if (playerHit.health == 1) {
+    //             hp2.destroy();
+    //         }
+    //         else {
+    //             hp1.destroy();
+    //             // Game over state should execute here
+    //         }
+    //         // Destroy bullet
+    //         bulletHit.setActive(false).setVisible(false);
+    //     }
+    // }
+
+    enemyFire(enemy, player, time, gameObject) {
+        enemy.lastFired -= 10; // reduces time from last shot
+
+        if (enemy.active === false) 
+            return;
+        if ((time - enemy.lastFired) >= 1000) {
+            enemy.lastFired = time;
+
+            // Get bullet from bullets group
+            var bullet = this.enemyBullets.get().setActive(true).setVisible(true);
+
+            if (bullet) {
+                bullet.fire(enemy, player);
+                // Add collider between bullet and player
+                this.physics.add.collider(this.player, bullet, this.playerHitCallback);
+            }
+        }
+    }
+
 }

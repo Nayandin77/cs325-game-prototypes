@@ -1,4 +1,16 @@
 var dat = {
+  player: {
+    "health": 5,
+  },
+  enemy_human: {
+    "health": 3
+  },
+  enemy_robot: {
+    "health": 5
+  },
+  enemy_alien: {
+    "health": 4
+  },
   sky: {
     "texture": 'sky',
     "gui": 'button-1',
@@ -55,7 +67,7 @@ var config = {
     pixelArt: true,
     physics: {
       default: "arcade",
-      arcade:{
+      arcade: {
           debug: false,
           debugShowVelocity: false
       }
