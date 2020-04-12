@@ -27,6 +27,7 @@ class Level0 extends Phaser.Scene {
         //     ["./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).ogg", 
         //     "./assets/media/start_screen/Sad Piano Music - The Last Battle (Original Composition).mp3"]);
 
+        /* Loading Playable Characters Sprites */
         this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
             frameWidth: 66,
             frameHeight: 60
@@ -46,6 +47,20 @@ class Level0 extends Phaser.Scene {
         this.load.spritesheet("green", "./assets/spritesheets/characters/green.png",{ // green
             frameWidth: 66,
             frameHeight: 60
+        });
+
+        /* Loading Enemy Sprites */
+        this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // green
+            frameWidth: 66,
+            frameHeight: 60
+        });
+        this.load.spritesheet("robot", "./assets/spritesheets/characters/robot.png",{ // green
+            frameWidth: 971,
+            frameHeight: 823
+        });
+        this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // green
+            frameWidth: 177,
+            frameHeight: 122
         });
 
         // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
@@ -191,11 +206,11 @@ class Level0 extends Phaser.Scene {
     update() {
         window.scene = this; // testing purposes
         
-        // Camera
+        /* Camera ..................................................... */
         this.cameras.main.setBounds(0,0,1600,1600);
         this.cameras.main.startFollow(this.player);
 
-        // Update Movement
+        /* Update Movement ..................................................... */
         if (this.key_left.isDown) { //  Move Left
             this.player.body.velocity.x = this.player.data.movement * -1;
             this.player.body.velocity.y = 0;
@@ -214,28 +229,30 @@ class Level0 extends Phaser.Scene {
             this.player.body.velocity.y = 0; 
         }
 
-        // Update Character & GUI
+        /* Update Character & GUI ..................................................... */
+
         if (this.key_1.isDown) { // sky
-            this.player.setTexture('sky');
             this.player.data = dat.sky;
-            this.character_button.setTexture('button-1');
         } else if (this.key_2.isDown) { // blue
-            this.player.setTexture('blue');
             this.player.data = dat.blue;
-            this.character_button.setTexture('button-2');
         } else if (this.key_3.isDown) { // cupcake
-            this.player.setTexture('cupcake');
             this.player.data = dat.cupcake;
-            this.character_button.setTexture('button-3');
         } else if (this.key_4.isDown) { // green
-            this.player.setTexture('green'); 
             this.player.data = dat.green;
-            this.character_button.setTexture('button-4');
         } else if (this.key_5.isDown) { // red
-            this.player.setTexture('red'); 
             this.player.data = dat.red;
-            this.character_button.setTexture('button-5');
+        } if (this.key_1 || this.key_2 || this.key_3 || this.key_4 || this.key_5) { // default for all
+            this.player.setTexture(this.player.data.texture); 
+            this.character_button.setTexture(this.player.data.gui);
+            this.ammoCapacity = this.player.data.ammo;
+            this.ammo = this.ammoCapacity;
+            this.ammoText.setText("Ammo: " + this.ammo + '/' + this.ammoCapacity);
         }
+
+        /* Update Special Attacks ..................................................... */
+
+
+        /* Update Reticle Behavior..................................................... */
 
         // Rotates player to face towards reticle
         this.player.rotation = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.reticle.x, this.reticle.y);
