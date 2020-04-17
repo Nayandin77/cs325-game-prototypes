@@ -206,7 +206,7 @@ class Level0 extends Phaser.Scene {
                 return;
 
             // Get bullet from bullets group
-            var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.getData('bullet'));
+            var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.getData('current').bullet);
 
             if (bullet) {
                 // console.log(bullet);
@@ -259,18 +259,18 @@ class Level0 extends Phaser.Scene {
 
         /* Update Movement ..................................................... */
         if (this.key_left.isDown) { //  Move Left
-            this.player.body.velocity.x = this.player.getData('movement') * -1;
+            this.player.body.velocity.x = this.player.getData('current').movement * -1;
             this.player.body.velocity.y = 0;
         } else if (this.key_right.isDown) { //  Move Right
-            this.player.body.velocity.x = this.player.getData('movement');
+            this.player.body.velocity.x = this.player.getData('current').movement;
             this.player.body.velocity.y = 0; 
             // player.animations.play('right');
         } else if (this.key_up.isDown) { //  Move  Up
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = this.player.getData('movement') * -1;
+            this.player.body.velocity.y = this.player.getData('current').movement * -1;
         } else if (this.key_down.isDown) { //  Move Down
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = this.player.getData('movement'); 
+            this.player.body.velocity.y = this.player.getData('current').movement; 
         } else { //  Stand still
             this.player.body.velocity.x = 0; 
             this.player.body.velocity.y = 0; 
@@ -278,27 +278,27 @@ class Level0 extends Phaser.Scene {
 
         /* Update Character & GUI ..................................................... */
         if (this.key_1.isDown) { // sky
-            this.player.setData({'current': this.scene.player.getData('sky')});
+            this.player.setData({'current': this.player.getData('sky')});
             // this.player.data = dat.sky;
         } else if (this.key_2.isDown) { // blue
             // this.player.data = dat.blue;
-            this.player.setData({'current': this.scene.player.getData('blue')});
+            this.player.setData({'current': this.player.getData('blue')});
         } else if (this.key_3.isDown) { // cupcake
             // this.player.data = dat.cupcake;
-            this.player.setData({'current': this.scene.player.getData('cupcake')});
+            this.player.setData({'current': this.player.getData('cupcake')});
         } else if (this.key_4.isDown) { // green
             // this.player.data = dat.green;
-            this.player.setData({'current': this.scene.player.getData('green')});
+            this.player.setData({'current': this.player.getData('green')});
         } else if (this.key_5.isDown) { // red
             // this.player.data = dat.red;
-            this.player.setData({'current': this.scene.player.getData('red')});
+            this.player.setData({'current': this.player.getData('red')});
         } if (this.key_1 || this.key_2 || this.key_3 || this.key_4 || this.key_5) { // default for all
-            this.player.setTexture(this.player.data.texture); 
-            this.character_button.setTexture(this.player.data.gui);
-            this.ammoCapacity = this.player.data.ammo;
+            this.player.setTexture(this.player.getData('current').texture);
+            this.character_button.setTexture(this.player.getData('current').gui);
+            this.ammoCapacity = this.player.getData('current').ammo;
             this.ammo = this.ammoCapacity;
             this.ammoText.setText("Ammo: " + this.ammo + '/' + this.ammoCapacity);
-            this.playerName.setText(this.player.data.name);
+            this.playerName.setText(this.player.getData('current').name);
         }
 
         /* Update Special Attacks ..................................................... */
