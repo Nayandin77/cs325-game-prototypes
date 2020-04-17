@@ -102,7 +102,7 @@ class Level0 extends Phaser.Scene {
         /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
         this.player.setData({'current': dat.sky, 'sky': dat.sky, 'blue': dat.blue, 'cupcake': dat.cupcake, 'green': dat.green, 'red': dat.red}); // load player data
-        // this.player.health = dat.player.health;
+        this.player.health = dat.player.health;
         this.player.enableBody();
         this.player.setCollideWorldBounds(true);
 
@@ -148,7 +148,7 @@ class Level0 extends Phaser.Scene {
         this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0); // q,e buttons
 
         // Ammo Text
-        this.ammoCapacity = this.player.getData('ammo');
+        this.ammoCapacity = this.player.getData('current').ammo;
         this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
         this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
 
@@ -160,7 +160,7 @@ class Level0 extends Phaser.Scene {
         this.player.hp5 = this.add.image(154, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
 
         // Player Name
-        this.playerName = this.add.bitmapText(50, 510, "pixelFont", this.player.getData('name'), 28).setScrollFactor(0);
+        this.playerName = this.add.bitmapText(50, 510, "pixelFont", this.player.getData('current').name, 28).setScrollFactor(0);
 
 
         /* CONTROLS ..................................................... */
