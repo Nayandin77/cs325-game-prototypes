@@ -101,10 +101,8 @@ class Level0 extends Phaser.Scene {
 
         /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
-        this.player.data = dat.sky; // loads sky's data old
-        // this.player.setData('data', dat.sky); // loads sky's data
-        // this.player.setData('name', dat.sky.name); // loads sky's data
-        this.player.health = dat.player.health;
+        this.player.setData({'current': dat.sky, 'sky': dat.sky, 'blue': dat.blue, 'cupcake': dat.cupcake, 'green': dat.green, 'red': dat.red}); // load player data
+        // this.player.health = dat.player.health;
         this.player.enableBody();
         this.player.setCollideWorldBounds(true);
 
@@ -150,7 +148,7 @@ class Level0 extends Phaser.Scene {
         this.special_button = this.physics.add.sprite(700, 500, 'Q1E1').setScale(.6,.6).setScrollFactor(0); // q,e buttons
 
         // Ammo Text
-        this.ammoCapacity = this.player.data.ammo;
+        this.ammoCapacity = this.player.getData('ammo');
         this.ammo = this.ammoCapacity; // from the start, but when shot needs to go down // this.ammo--;
         this.ammoText = this.add.bitmapText(575, 540, "pixelFont", "Ammo: " + this.ammo + '/' + this.ammoCapacity, 44).setScrollFactor(0);
 
@@ -162,7 +160,7 @@ class Level0 extends Phaser.Scene {
         this.player.hp5 = this.add.image(154, 555, 'hp').setScrollFactor(0).setScale(.12, .12);
 
         // Player Name
-        this.playerName = this.add.bitmapText(50, 510, "pixelFont", "Sky", 28).setScrollFactor(0);
+        this.playerName = this.add.bitmapText(50, 510, "pixelFont", this.player.getData('name'), 28).setScrollFactor(0);
 
 
         /* CONTROLS ..................................................... */
@@ -208,7 +206,7 @@ class Level0 extends Phaser.Scene {
                 return;
 
             // Get bullet from bullets group
-            var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.data.bullet);
+            var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.getData('bullet'));
 
             if (bullet) {
                 // console.log(bullet);
@@ -261,18 +259,18 @@ class Level0 extends Phaser.Scene {
 
         /* Update Movement ..................................................... */
         if (this.key_left.isDown) { //  Move Left
-            this.player.body.velocity.x = this.player.data.movement * -1;
+            this.player.body.velocity.x = this.player.getData('movement') * -1;
             this.player.body.velocity.y = 0;
         } else if (this.key_right.isDown) { //  Move Right
-            this.player.body.velocity.x = this.player.data.movement;
+            this.player.body.velocity.x = this.player.getData('movement');
             this.player.body.velocity.y = 0; 
             // player.animations.play('right');
         } else if (this.key_up.isDown) { //  Move  Up
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = this.player.data.movement * -1;
+            this.player.body.velocity.y = this.player.getData('movement') * -1;
         } else if (this.key_down.isDown) { //  Move Down
             this.player.body.velocity.x = 0; 
-            this.player.body.velocity.y = this.player.data.movement; 
+            this.player.body.velocity.y = this.player.getData('movement'); 
         } else { //  Stand still
             this.player.body.velocity.x = 0; 
             this.player.body.velocity.y = 0; 
@@ -280,15 +278,20 @@ class Level0 extends Phaser.Scene {
 
         /* Update Character & GUI ..................................................... */
         if (this.key_1.isDown) { // sky
-            this.player.data = dat.sky;
+            this.player.setData({'current': this.scene.player.getData('sky')});
+            // this.player.data = dat.sky;
         } else if (this.key_2.isDown) { // blue
-            this.player.data = dat.blue;
+            // this.player.data = dat.blue;
+            this.player.setData({'current': this.scene.player.getData('blue')});
         } else if (this.key_3.isDown) { // cupcake
-            this.player.data = dat.cupcake;
+            // this.player.data = dat.cupcake;
+            this.player.setData({'current': this.scene.player.getData('cupcake')});
         } else if (this.key_4.isDown) { // green
-            this.player.data = dat.green;
+            // this.player.data = dat.green;
+            this.player.setData({'current': this.scene.player.getData('green')});
         } else if (this.key_5.isDown) { // red
-            this.player.data = dat.red;
+            // this.player.data = dat.red;
+            this.player.setData({'current': this.scene.player.getData('red')});
         } if (this.key_1 || this.key_2 || this.key_3 || this.key_4 || this.key_5) { // default for all
             this.player.setTexture(this.player.data.texture); 
             this.character_button.setTexture(this.player.data.gui);
