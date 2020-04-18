@@ -108,18 +108,21 @@ class Level0 extends Phaser.Scene {
 
         /* Enemy Configuration */
         this.enemy_human = this.physics.add.sprite(300, 600, 'human').setCollideWorldBounds(true);
-        this.enemy_human.data = dat.enemy_human;
-        this.enemy_human.health = this.enemy_human.data.health;
+        // this.enemy_human.data = dat.enemy_human;
+        // this.enemy_human.health = this.enemy_human.data.health;
+        this.enemy_human.setData({'data': dat.enemy_human});
         this.enemy_human.lastFired = 0;
 
         this.enemy_robot = this.physics.add.sprite(300, 700, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        this.enemy_robot.data = dat.enemy_robot;
-        this.enemy_robot.health = this.enemy_robot.data.health;
+        // this.enemy_robot.data = dat.enemy_robot;
+        // this.enemy_robot.health = this.enemy_robot.data.health;
+        this.enemy_robot.setData({'data': dat.enemy_robot});
         this.enemy_robot.lastFired = 0;
 
         this.enemy_alien = this.physics.add.sprite(300, 800, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
-        this.enemy_alien.data = dat.enemy_alien;
-        this.enemy_alien.health = this.enemy_alien.data.health;
+        // this.enemy_alien.data = dat.enemy_alien;
+        // this.enemy_alien.health = this.enemy_alien.data.health;
+        this.enemy_alien.setData({'data': dat.enemy_alien});
         this.enemy_alien.lastFired = 0;
         
 
@@ -225,8 +228,7 @@ class Level0 extends Phaser.Scene {
 
         // Move reticle upon locked pointer move
         this.input.on('pointermove', function (pointer) {
-            if (this.input.mouse.locked)
-            {
+            if (this.input.mouse.locked) {
                 this.reticle.x += pointer.movementX;
                 this.reticle.y += pointer.movementY;
             }
@@ -322,15 +324,12 @@ class Level0 extends Phaser.Scene {
         this.constrainReticle(this.reticle);
 
         // Make enemy fire
-        this.enemyFire(this.enemy_human, this.player, dat.enemy_human.time, this, this.enemy_human.data.bullet);
-        this.enemyFire(this.enemy_robot, this.player, dat.enemy_robot.time, this, this.enemy_robot.data.bullet);
-        this.enemyFire(this.enemy_alien, this.player, dat.enemy_alien.time, this, this.enemy_alien.data.bullet);
+        this.enemyFire(this.enemy_human, this.player, dat.enemy_human.time, this, this.enemy_human.getData('data').bullet);
+        this.enemyFire(this.enemy_robot, this.player, dat.enemy_robot.time, this, this.enemy_robot.getData('data').bullet);
+        this.enemyFire(this.enemy_alien, this.player, dat.enemy_alien.time, this, this.enemy_alien.getData('data').bullet);
 
         // Check Health
         if (this.player.health <= 0) {
-            // game.scene.stop("Level0");
-            // this.scene.stop();
-            // console.log(this.player.health);
             this.scene.start("EndScreen"); // fix this
         }
 
@@ -355,7 +354,7 @@ class Level0 extends Phaser.Scene {
     // Reduce health of enemy if shot
     enemyHitCallback(enemyHit, bulletHit) {
         if (bulletHit.active === true && enemyHit.active === true) {
-            enemyHit.health = enemyHit.health - 1;
+            enemyHit.health = enemyHit.getData('data').health -= 1;
             console.log("Enemy hp: ", enemyHit.health);
 
             // Kill enemy if health <= 0
@@ -408,6 +407,7 @@ class Level0 extends Phaser.Scene {
 
             // Get bullet from bullets group
             var bullet = this.enemyBullets.get().setActive(true).setVisible(true).setTexture(bullet_t);
+            bullet.speed = enemy.getData('data').movement / 400;
 
             if (bullet) {
                 bullet.fire(enemy, player);

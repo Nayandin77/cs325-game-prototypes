@@ -16,7 +16,7 @@ var dat = {
   },
   enemy_alien: {
     "health": 4,
-    "movement": 250,
+    "movement": 220,
     "time": 850,
     "bullet": 'enemy-alien-bullet',
   },

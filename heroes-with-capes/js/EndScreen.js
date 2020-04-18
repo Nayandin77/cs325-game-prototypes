@@ -9,6 +9,7 @@ class EndScreen extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
+        console.log("here");
     }
 
     update() {
