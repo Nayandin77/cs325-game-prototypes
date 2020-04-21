@@ -4,15 +4,20 @@ class EndScreen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("background", "./assets/backgrounds/background.png");
+        this.load.image("background_es", "./assets/backgrounds/end_screen_background.png");
     }
 
     create() {
-        this.background = this.add.tileSprite(0, 0, config.width, config.height, "background");
-        console.log("here");
+        this.background_es = this.add.tileSprite(0, 0, config.width, config.height, "background_es");
+        this.background_es.setOrigin(0, 0);
+
+        this.key_R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     }
 
     update() {
+        if (this.key_R.isDown) {
+            this.scene.start('StartScreen');
+        }
 
     }
 

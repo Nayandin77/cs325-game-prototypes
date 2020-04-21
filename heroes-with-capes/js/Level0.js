@@ -5,7 +5,9 @@ class Level0 extends Phaser.Scene {
     
     preload() {
         /* Map ..................................................... */
-        this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
+        // this.load.image("LEVEL_0", "./assets/maps/LEVEL_0/LEVEL_0.png");
+        this.load.image("LEVEL_0", "./assets/maps/test.png");
+
         this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
         this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
 
@@ -108,20 +110,14 @@ class Level0 extends Phaser.Scene {
 
         /* Enemy Configuration */
         this.enemy_human = this.physics.add.sprite(300, 600, 'human').setCollideWorldBounds(true);
-        // this.enemy_human.data = dat.enemy_human;
-        // this.enemy_human.health = this.enemy_human.data.health;
         this.enemy_human.setData({'data': dat.enemy_human});
         this.enemy_human.lastFired = 0;
 
         this.enemy_robot = this.physics.add.sprite(300, 700, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        // this.enemy_robot.data = dat.enemy_robot;
-        // this.enemy_robot.health = this.enemy_robot.data.health;
         this.enemy_robot.setData({'data': dat.enemy_robot});
         this.enemy_robot.lastFired = 0;
 
         this.enemy_alien = this.physics.add.sprite(300, 800, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
-        // this.enemy_alien.data = dat.enemy_alien;
-        // this.enemy_alien.health = this.enemy_alien.data.health;
         this.enemy_alien.setData({'data': dat.enemy_alien});
         this.enemy_alien.lastFired = 0;
         
@@ -212,7 +208,7 @@ class Level0 extends Phaser.Scene {
             var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.getData('current').bullet);
 
             if (bullet) {
-                // console.log(bullet);
+                this.ammo -= 1;
                 bullet.fire(this.player, this.reticle);
                 this.physics.add.collider(this.enemy_human, bullet, this.enemyHitCallback);
                 this.physics.add.collider(this.enemy_robot, bullet, this.enemyHitCallback);
@@ -370,7 +366,7 @@ class Level0 extends Phaser.Scene {
     playerHitCallback(playerHit, bulletHit) {
         // Reduce health of player
         if (bulletHit.active === true && playerHit.active === true) {
-            playerHit.health = playerHit.health - 1;
+            // playerHit.health = playerHit.health - 1; // disabled for now, in level 0
             console.log("Player hp: ", playerHit.health);
 
             // Kill hp sprites and kill player if health <= 0
@@ -386,7 +382,7 @@ class Level0 extends Phaser.Scene {
             else if (playerHit.health == 1) {
                 playerHit.hp4.destroy();
             }
-            else {
+            else if (playerHit.health == 0) {
                 playerHit.hp5.destroy();
                 // Game over state should execute here
             }
