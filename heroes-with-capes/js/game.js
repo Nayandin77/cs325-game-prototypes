@@ -36,7 +36,7 @@ var dat = {
     "texture": 'blue',
     "bullet": 'bullet-blue',
     "gui": 'button-2',
-    "movement": 150,
+    "movement": 230,
     "q": "",
     "e": "",
     "ammo": 16,
@@ -47,7 +47,7 @@ var dat = {
     "texture": 'cupcake',
     "bullet": 'bullet-cupcake',
     "gui": 'button-3',
-    "movement": 120,
+    "movement": 160,
     "q": "",
     "e": "",
     "ammo": 99,
@@ -58,7 +58,7 @@ var dat = {
     "texture": 'green',
     "bullet": 'bullet-green',
     "gui": 'button-4',
-    "movement": 130,
+    "movement": 180,
     "q": "",
     "e": "",
     "ammo": 10,
@@ -69,7 +69,7 @@ var dat = {
     "texture": 'red',
     "bullet": 'bullet-red',
     "gui": 'button-5',
-    "movement": 175,
+    "movement": 190,
     "q": "",
     "e": "",
     "ammo": 40,
@@ -82,13 +82,13 @@ var config = {
     height: 600,
     backgroundColor: 0x000000,
     parent: 'game',
-    scene: [StartScreen, CutScene, Level0, EndScreen],
+    scene: [StartScreen, CutScene, Level0, Level1, EndScreen],
     pixelArt: true,
     physics: {
       default: "arcade",
       arcade: {
           debug: false,
-          debugShowVelocity: false
+          debugShowVelocity: false,
       }
     }
   }

@@ -9,10 +9,6 @@ class Bullet extends Phaser.GameObjects.Image {
         this.setSize(12, 12, true);
     }
 
-    setBullet(string) {
-        console.log(this.Image);
-    }
-
     fire (shooter, target) {
         this.setPosition(shooter.x, shooter.y); // Initial position
         this.direction = Math.atan( (target.x - this.x) / (target.y - this.y));

@@ -1,12 +1,14 @@
-class Level0 extends Phaser.Scene {
+class Level1 extends Phaser.Scene {
     constructor() {
-        super("Level0");
+        super("Level1");
     }
     
     preload() {
         /* Map ..................................................... */
-        this.load.tilemapCSV("level_0", "./assets/maps/level0.csv");
-        this.load.image('tiles', './assets/maps/IceTileset.png');
+        this.load.image("LEVEL_1", "./assets/maps/test.png");
+
+        this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
+        this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
 
         /* GUI ..................................................... */
         this.load.image("gui-background", "./assets/gui/gui_background.png");
@@ -85,71 +87,40 @@ class Level0 extends Phaser.Scene {
         /* MAP DESIGN ..................................................... */
 
         // Background
-        this.map = this.make.tilemap({key: 'level_0', tileWidth: 32, tileHeight: 32});
-        this.tileset = this.map.addTilesetImage("tiles");
-        this.layer = this.map.createStaticLayer(0, this.tileset, 0, 0);
-        this.layer.setCollisionBetween(42,43);
-        
-        this.layer.setTileIndexCallback([42,43], this.bulletCollision, this)
+        this.background = this.add.tileSprite(0, 0, 1600, 1600, "LEVEL_1");
+        this.background.setOrigin(0, 0);
 
         // Set world bounds
         this.physics.world.setBounds(0, 0, 1600, 1600);
+
+        // // Obstacles  fix
+        // var walls = this.add.group();
+        // walls.enableBody = true;
+        // walls.immovable = true;
         
-        /* Player Configuration ..................................................... */
+        // border.body.immovable = true;
+
+        /* Player Configuration */
         this.player = this.physics.add.sprite(800, 800, 'sky'); // default character loads 'sky'
         this.player.setData({'current': dat.sky, 'sky': dat.sky, 'blue': dat.blue, 'cupcake': dat.cupcake, 'green': dat.green, 'red': dat.red}); // load player data
         this.player.health = dat.player.health;
         this.player.enableBody();
         this.player.setCollideWorldBounds(true);
 
-        // Obstacles
-        this.physics.add.collider(this.player, this.layer);
+        /* Enemy Configuration */
+        this.enemy_human = this.physics.add.sprite(300, 600, 'human').setCollideWorldBounds(true);
+        this.enemy_human.setData({'data': dat.enemy_human});
+        this.enemy_human.lastFired = 0;
 
-        /* Enemy Configuration ..................................................... */
-        this.enemyHumanGroup = this.physics.add.group();
-        this.enemy_human_1 = this.physics.add.sprite(192, 160, 'human').setCollideWorldBounds(true);
-        this.enemy_human_1.setData({'data': dat.enemy_human});
-        this.enemy_human_1.lastFired = 0;
-        this.enemy_human_1.health = 3;
+        this.enemy_robot = this.physics.add.sprite(300, 700, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
+        this.enemy_robot.setData({'data': dat.enemy_robot});
+        this.enemy_robot.lastFired = 0;
 
-        this.enemy_human_2 = this.physics.add.sprite(192, 256, 'human').setCollideWorldBounds(true);
-        this.enemy_human_2.setData({'data': dat.enemy_human});
-        this.enemy_human_2.lastFired = 0;
-        this.enemy_human_2.health = 3;
-
-        this.enemy_human_3 = this.physics.add.sprite(288, 192, 'human').setCollideWorldBounds(true);
-        this.enemy_human_3.setData({'data': dat.enemy_human});
-        this.enemy_human_3.lastFired = 0;
-        this.enemy_human_3.health = 3;
-
-
-        this.enemy_robot_1 = this.physics.add.sprite(39*32, 34*32, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        this.enemy_robot_1.setData({'data': dat.enemy_robot});
-        this.enemy_robot_1.lastFired = 0;
-        this.enemy_robot_1.health = 4;
-
-        this.enemy_robot_2 = this.physics.add.sprite(31*32, 34*32, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        this.enemy_robot_2.setData({'data': dat.enemy_robot});
-        this.enemy_robot_2.lastFired = 0;
-        this.enemy_robot_2.health = 4;
-
-        this.enemy_robot_3 = this.physics.add.sprite(21*32, 34*32, 'robot').setScale(.1, .1).setCollideWorldBounds(true);
-        this.enemy_robot_3.setData({'data': dat.enemy_robot});
-        this.enemy_robot_3.lastFired = 0;
-        this.enemy_robot_3.health = 4;
-
-
-        this.enemy_alien_1 = this.physics.add.sprite(37*32, 11*32, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
-        this.enemy_alien_1.setData({'data': dat.enemy_alien});
-        this.enemy_alien_1.lastFired = 0;
-        this.enemy_alien_1.health = 5;
-
-        this.enemy_alien_2 = this.physics.add.sprite(43*32, 11*32, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
-        this.enemy_alien_2.setData({'data': dat.enemy_alien});
-        this.enemy_alien_2.lastFired = 0;
-        this.enemy_alien_2.health = 5;
-
+        this.enemy_alien = this.physics.add.sprite(300, 800, 'alien').setScale(.5, .5).setCollideWorldBounds(true);
+        this.enemy_alien.setData({'data': dat.enemy_alien});
+        this.enemy_alien.lastFired = 0;
         
+
         /* GUI DESIGN ..................................................... */
 
         //// Top Bar
@@ -166,7 +137,7 @@ class Level0 extends Phaser.Scene {
         this.gui_top_bar.fillPath();
 
         // Level Name Text
-        this.levelText = this.add.bitmapText(config.width / 2 - 150, 6, "pixelFont", "Level 0 - Play Around Room", 36).setScrollFactor(0);
+        this.levelText = this.add.bitmapText(config.width / 2 - 150, 6, "pixelFont", "Level 1 - London", 36).setScrollFactor(0);
         // time & score up for debate
 
         //// Bottom Bar
@@ -227,8 +198,6 @@ class Level0 extends Phaser.Scene {
         // Set camera properties
         this.cameras.main.startFollow(this.player);
 
-        this.bulletCounter = 0; // bullet tracker
-
         // Fires bullet from player on left click of mouse
         this.input.on('pointerdown', function (pointer, time, lastFired) {
             if (this.player.active === false)
@@ -238,20 +207,14 @@ class Level0 extends Phaser.Scene {
             var bullet = this.playerBullets.get().setActive(true).setVisible(true).setTexture(this.player.getData('current').bullet);
 
             if (bullet) {
-                this.bulletCounter = true; // important to track bullets
+                this.ammo -= 1;
                 bullet.fire(this.player, this.reticle);
-                this.physics.add.collider(this.layer, bullet, this.wallCallback);
-                this.physics.add.collider(this.enemy_human_1, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_human_2, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_human_3, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_robot_1, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_robot_2, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_robot_3, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_alien_1, bullet, this.enemyHitCallback);
-                this.physics.add.collider(this.enemy_alien_2, bullet, this.enemyHitCallback);
-
+                this.physics.add.collider(this.enemy_human, bullet, this.enemyHitCallback);
+                this.physics.add.collider(this.enemy_robot, bullet, this.enemyHitCallback);
+                this.physics.add.collider(this.enemy_alien, bullet, this.enemyHitCallback);
             }
         }, this);
+
 
         // Pointer lock will only work after mousedown
         game.canvas.addEventListener('mousedown', function () {
@@ -266,7 +229,22 @@ class Level0 extends Phaser.Scene {
             }
         }, this);
 
+        /* Music Config ..................................................... */
+        // var musicConfig = {
+        //     mute: false,
+        //     volume: 0.5,
+        //     rate: 1,
+        //     detune: 0,
+        //     seek: 0,
+        //     loop: false,
+        //     delay: 0
+        // }
+
+        // // Music
+        // this.SC_music = this.sound.add("start_screen_music");
+        // this.SC_music.play(musicConfig);
         this.time = 1000;
+
     }
 
     update(time) {
@@ -311,9 +289,7 @@ class Level0 extends Phaser.Scene {
         } else if (this.key_5.isDown) { // red
             // this.player.data = dat.red;
             this.player.setData({'current': this.player.getData('red')});
-        }
-        
-        if (this.key_1.isDown || this.key_2.isDown || this.key_3.isDown || this.key_4.isDown || this.key_5.isDown) { // default for all
+        } if (this.key_1 || this.key_2 || this.key_3 || this.key_4 || this.key_5) { // default for all
             this.player.setTexture(this.player.getData('current').texture);
             this.character_button.setTexture(this.player.getData('current').gui);
             this.ammoCapacity = this.player.getData('current').ammo;
@@ -331,16 +307,9 @@ class Level0 extends Phaser.Scene {
         this.player.rotation = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.reticle.x, this.reticle.y);
 
         // Rotates enemies to face towards player
-        this.enemy_human_1.rotation = Phaser.Math.Angle.Between(this.enemy_human_1.x, this.enemy_human_1.y, this.player.x, this.player.y);
-        this.enemy_human_2.rotation = Phaser.Math.Angle.Between(this.enemy_human_2.x, this.enemy_human_2.y, this.player.x, this.player.y);
-        this.enemy_human_3.rotation = Phaser.Math.Angle.Between(this.enemy_human_3.x, this.enemy_human_3.y, this.player.x, this.player.y);
-        this.enemy_robot_1.rotation = Phaser.Math.Angle.Between(this.enemy_robot_1.x, this.enemy_robot_1.y, this.player.x, this.player.y);
-        this.enemy_robot_2.rotation = Phaser.Math.Angle.Between(this.enemy_robot_2.x, this.enemy_robot_2.y, this.player.x, this.player.y);
-        this.enemy_robot_3.rotation = Phaser.Math.Angle.Between(this.enemy_robot_3.x, this.enemy_robot_3.y, this.player.x, this.player.y);
-
-        this.enemy_alien_1.rotation = Phaser.Math.Angle.Between(this.enemy_alien_1.x, this.enemy_alien_1.y, this.player.x, this.player.y);
-        this.enemy_alien_2.rotation = Phaser.Math.Angle.Between(this.enemy_alien_2.x, this.enemy_alien_2.y, this.player.x, this.player.y);
-
+        this.enemy_human.rotation = Phaser.Math.Angle.Between(this.enemy_human.x, this.enemy_human.y, this.player.x, this.player.y);
+        this.enemy_robot.rotation = Phaser.Math.Angle.Between(this.enemy_robot.x, this.enemy_robot.y, this.player.x, this.player.y);
+        this.enemy_alien.rotation = Phaser.Math.Angle.Between(this.enemy_alien.x, this.enemy_alien.y, this.player.x, this.player.y);
 
         // Make reticle move with player
         this.reticle.body.velocity.x = this.player.body.velocity.x;
@@ -350,13 +319,9 @@ class Level0 extends Phaser.Scene {
         this.constrainReticle(this.reticle);
 
         // Make enemy fire
-        this.enemyFire(this.enemy_human_1, this.player, this.enemy_human_1.getData('data').time, this, this.enemy_human_1.getData('data').bullet);
-        this.enemyFire(this.enemy_human_2, this.player, this.enemy_human_2.getData('data').time, this, this.enemy_human_2.getData('data').bullet);
-        this.enemyFire(this.enemy_human_3, this.player, this.enemy_human_3.getData('data').time, this, this.enemy_human_3.getData('data').bullet);
-        this.enemyFire(this.enemy_robot_1, this.player, this.enemy_robot_1.getData('data').time, this, this.enemy_robot_1.getData('data').bullet);
-        this.enemyFire(this.enemy_robot_2, this.player, this.enemy_robot_2.getData('data').time, this, this.enemy_robot_2.getData('data').bullet);
-        this.enemyFire(this.enemy_robot_3, this.player, this.enemy_robot_3.getData('data').time, this, this.enemy_robot_3.getData('data').bullet);
-        this.enemyFire(this.enemy_alien_1, this.player, this.enemy_alien_1.getData('data').time, this, this.enemy_alien_1.getData('data').bullet);
+        this.enemyFire(this.enemy_human, this.player, dat.enemy_human.time, this, this.enemy_human.getData('data').bullet);
+        this.enemyFire(this.enemy_robot, this.player, dat.enemy_robot.time, this, this.enemy_robot.getData('data').bullet);
+        this.enemyFire(this.enemy_alien, this.player, dat.enemy_alien.time, this, this.enemy_alien.getData('data').bullet);
 
         // Check Health
         if (this.player.health <= 0) {
@@ -365,24 +330,8 @@ class Level0 extends Phaser.Scene {
 
         // Locate Player 
         if ((this.player.x >= 600) && (this.player.x <= 945) && (this.player.y <= 130)) {
-            this.scene.start("Level1"); // if reaching the Level 1 Zone, switch levels
+            this.scene.start("EndScreen"); // if reaching the Level 1 Zone, switch levels
         }
-
-        if (this.bulletCounter == true) {
-            this.ammo -= 1;
-            this.bulletCounter = false;
-            this.ammoText.setText("Ammo: " + this.ammo + '/' + this.ammoCapacity);
-        }
-
-        if (this.ammo == 0) {
-            this.ammo = this.ammoCapacity;
-            this.bulletCounter = 0;
-            this.ammoText.setText("Ammo: " + this.ammo + '/' + this.ammoCapacity);
-        }
-
-        // this.playerWall = this.physics.add.collider(this.player, this.wallGroup);
-        // this.bulletWall = this.physics.add.collider(this.playerBullets, this.wallGroup);
-
     }
 
     constrainReticle (reticle) {
@@ -404,8 +353,7 @@ class Level0 extends Phaser.Scene {
     // Reduce health of enemy if shot
     enemyHitCallback(enemyHit, bulletHit) {
         if (bulletHit.active === true && enemyHit.active === true) {
-            // enemyHit.health = enemyHit.getData('data').health -= 1;
-            enemyHit.health -= 1;
+            enemyHit.health = enemyHit.getData('data').health -= 1;
             console.log("Enemy hp: ", enemyHit.health);
 
             // Kill enemy if health <= 0
@@ -462,26 +410,10 @@ class Level0 extends Phaser.Scene {
 
             if (bullet) {
                 bullet.fire(enemy, player);
-                // Add collider between (bullet and player) and (bullet and wall)
-                this.physics.add.collider(this.layer, bullet, this.wallCallback);
+                // Add collider between bullet and player
                 this.physics.add.collider(this.player, bullet, this.playerHitCallback);
             }
         }
-    }
-
-    // Destroy bullet if hits a wall
-    wallCallback(bulletHit, layer) {
-        if (bulletHit.active === true) {
-           // Destroy bullet
-           bulletHit.setActive(false).setVisible(false);
-        }
-    }
-
-    bulletCollision(random, layer) {
-        if(random.type == 'Sprite')
-            return 0;// do nothing
-        if(random.type == 'Image')
-            this.wallCallback(random, layer);        
     }
 
 }
