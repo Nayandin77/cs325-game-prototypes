@@ -5,8 +5,8 @@ class Level0 extends Phaser.Scene {
     
     preload() {
         /* Map ..................................................... */
-        this.load.tilemapCSV("level_0", "./assets/maps/level0.csv");
-        this.load.image('tiles', './assets/maps/IceTileset.png');
+        this.load.tilemapCSV("level_0", "./assets/maps/LEVEL_0/level0.csv");
+        this.load.image('tiles', './assets/maps/LEVEL_0/IceTileset.png');
 
         /* GUI ..................................................... */
         this.load.image("gui-background", "./assets/gui/gui_background.png");

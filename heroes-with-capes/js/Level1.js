@@ -5,70 +5,68 @@ class Level1 extends Phaser.Scene {
     
     preload() {
         /* Map ..................................................... */
-        this.load.image("LEVEL_1", "./assets/maps/test.png");
+        this.load.tilemapCSV("level_0", "./assets/maps/LEVEL_1/level1.csv");
+        this.load.image('tiles', './assets/maps/LEVEL_1/NatureTileset.png');
 
-        this.load.image("horizonal-border", "./assets/maps/LEVEL_0/horizontal_border.png");
-        this.load.image("vertical-border", "./assets/maps/LEVEL_0/vertical_border.png");
+        // /* GUI ..................................................... */
+        // this.load.image("gui-background", "./assets/gui/gui_background.png");
+        // this.load.image("button-1", "./assets/gui/character_button_1.png");
+        // this.load.image("button-2", "./assets/gui/character_button_2.png");
+        // this.load.image("button-3", "./assets/gui/character_button_3.png");
+        // this.load.image("button-4", "./assets/gui/character_button_4.png");
+        // this.load.image("button-5", "./assets/gui/character_button_5.png");
+        // this.load.image("Q0E0", "./assets/gui/Q_0_E_0.png");
+        // this.load.image("Q1E0", "./assets/gui/Q_1_E_0.png");
+        // this.load.image("Q0E1", "./assets/gui/Q_0_E_1.png");
+        // this.load.image("Q1E1", "./assets/gui/Q_1_E_1.png");
+        // this.load.image("target", "./assets/gui/reticle.png");
 
-        /* GUI ..................................................... */
-        this.load.image("gui-background", "./assets/gui/gui_background.png");
-        this.load.image("button-1", "./assets/gui/character_button_1.png");
-        this.load.image("button-2", "./assets/gui/character_button_2.png");
-        this.load.image("button-3", "./assets/gui/character_button_3.png");
-        this.load.image("button-4", "./assets/gui/character_button_4.png");
-        this.load.image("button-5", "./assets/gui/character_button_5.png");
-        this.load.image("Q0E0", "./assets/gui/Q_0_E_0.png");
-        this.load.image("Q1E0", "./assets/gui/Q_1_E_0.png");
-        this.load.image("Q0E1", "./assets/gui/Q_0_E_1.png");
-        this.load.image("Q1E1", "./assets/gui/Q_1_E_1.png");
-        this.load.image("target", "./assets/gui/reticle.png");
+        // /* Health Points */
+        // this.load.image("hp", "./assets/gui/hp.png")
 
-        /* Health Points */
-        this.load.image("hp", "./assets/gui/hp.png")
+        // /* Playable Characters Sprites & Player Bullets ..................................................... */
+        // this.load.image("bullet-sky", "./assets/spritesheets/bullets/bullet-sky.png"); // sky's bullet
+        // this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
+        // this.load.image("bullet-blue", "./assets/spritesheets/bullets/bullet-blue.png"); // blue's bullet
+        // this.load.spritesheet("blue", "./assets/spritesheets/characters/blue.png",{ // blue
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
+        // this.load.image("bullet-cupcake", "./assets/spritesheets/bullets/bullet-cupcake.png"); // cupcake's bullet
+        // this.load.spritesheet("cupcake", "./assets/spritesheets/characters/cupcake.png",{ // cupcake
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
+        // this.load.image("bullet-red", "./assets/spritesheets/bullets/bullet-red.png"); // red's bullet
+        // this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{ // red
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
+        // this.load.image("bullet-green", "./assets/spritesheets/bullets/bullet-green.png"); // green's bullet
+        // this.load.spritesheet("green", "./assets/spritesheets/characters/green.png",{ // green
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
 
-        /* Playable Characters Sprites & Player Bullets ..................................................... */
-        this.load.image("bullet-sky", "./assets/spritesheets/bullets/bullet-sky.png"); // sky's bullet
-        this.load.spritesheet("sky", "./assets/spritesheets/characters/sky.png",{ // sky
-            frameWidth: 66,
-            frameHeight: 60
-        });
-        this.load.image("bullet-blue", "./assets/spritesheets/bullets/bullet-blue.png"); // blue's bullet
-        this.load.spritesheet("blue", "./assets/spritesheets/characters/blue.png",{ // blue
-            frameWidth: 66,
-            frameHeight: 60
-        });
-        this.load.image("bullet-cupcake", "./assets/spritesheets/bullets/bullet-cupcake.png"); // cupcake's bullet
-        this.load.spritesheet("cupcake", "./assets/spritesheets/characters/cupcake.png",{ // cupcake
-            frameWidth: 66,
-            frameHeight: 60
-        });
-        this.load.image("bullet-red", "./assets/spritesheets/bullets/bullet-red.png"); // red's bullet
-        this.load.spritesheet("red", "./assets/spritesheets/characters/red.png",{ // red
-            frameWidth: 66,
-            frameHeight: 60
-        });
-        this.load.image("bullet-green", "./assets/spritesheets/bullets/bullet-green.png"); // green's bullet
-        this.load.spritesheet("green", "./assets/spritesheets/characters/green.png",{ // green
-            frameWidth: 66,
-            frameHeight: 60
-        });
-
-        /* Enemy Sprites & Enemy Bullets ..................................................... */
-        this.load.image("enemy-human-bullet", "./assets/spritesheets/bullets/enemy-human-bullet.png"); // human's bullet
-        this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // human
-            frameWidth: 66,
-            frameHeight: 60
-        });
-        this.load.image("enemy-robot-bullet", "./assets/spritesheets/bullets/enemy-robot-bullet.png"); // robot's bullet
-        this.load.spritesheet("robot", "./assets/spritesheets/characters/robot.png",{ // robot
-            frameWidth: 971,
-            frameHeight: 823
-        });
-        this.load.image("enemy-alien-bullet", "./assets/spritesheets/bullets/enemy-alien-bullet.png"); // alien's bullet
-        this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // alien
-            frameWidth: 122,
-            frameHeight: 177
-        }); 
+        // /* Enemy Sprites & Enemy Bullets ..................................................... */
+        // this.load.image("enemy-human-bullet", "./assets/spritesheets/bullets/enemy-human-bullet.png"); // human's bullet
+        // this.load.spritesheet("human", "./assets/spritesheets/characters/human.png",{ // human
+        //     frameWidth: 66,
+        //     frameHeight: 60
+        // });
+        // this.load.image("enemy-robot-bullet", "./assets/spritesheets/bullets/enemy-robot-bullet.png"); // robot's bullet
+        // this.load.spritesheet("robot", "./assets/spritesheets/characters/robot.png",{ // robot
+        //     frameWidth: 971,
+        //     frameHeight: 823
+        // });
+        // this.load.image("enemy-alien-bullet", "./assets/spritesheets/bullets/enemy-alien-bullet.png"); // alien's bullet
+        // this.load.spritesheet("alien", "./assets/spritesheets/characters/alien.png",{ // alien
+        //     frameWidth: 122,
+        //     frameHeight: 177
+        // }); 
 
         // this.load.spritesheet("beam", "./assets/spritesheets/beam.png",{ // can possibly use this for speical attack
         //     frameWidth: 16,
